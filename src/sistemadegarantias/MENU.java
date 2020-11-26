@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package sistemadegarantias;
 
 import java.awt.Image;
@@ -176,12 +172,11 @@ public class MENU extends javax.swing.JFrame {
     private void JBHISTORIALCOMPRAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBHISTORIALCOMPRAActionPerformed
         HISTORIALCOMPRAS HC= new HISTORIALCOMPRAS();
         HC.setVisible(true);
-       
         dispose();
     }//GEN-LAST:event_JBHISTORIALCOMPRAActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-  MENUNUEVAGARANTIA MG = new MENUNUEVAGARANTIA();
+        MENUNUEVAGARANTIA MG = new MENUNUEVAGARANTIA();
         MG.setVisible(true);
         MG.setLocation(220, 50);
         MG.setSize(865, 400);
@@ -189,10 +184,8 @@ public class MENU extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-   
-        HISTORIALCOMPRAS HC= new HISTORIALCOMPRAS();
+           HISTORIALCOMPRAS HC= new HISTORIALCOMPRAS();
         HC.setVisible(true);
-      
         dispose(); 
     }//GEN-LAST:event_jButton2ActionPerformed
 

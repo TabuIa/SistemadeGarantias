@@ -36,8 +36,8 @@ class Leer_fichero {
         File ruta = new File("C:\\Program Files\\Sistema de Garantias/config.txt");
         if (ruta.exists()) {
             try {
-                   //  System.out.println(System.getProperty("user.name")); 
-                //String user = System.getProperty("user.name");
+                //  System.out.println(System.getProperty("user.name")); 
+                // String user = System.getProperty("user.name");
                 //  File archivo = new File("C:\\Users\\" + user + "\\Desktop\\LEEME.txt");
                 File archivo = new File("C:\\Program Files\\Sistema de Garantias/config.txt");
 
@@ -45,7 +45,9 @@ class Leer_fichero {
                 BufferedReader br = new BufferedReader(entrada);
                 ArrayList arreglo = new ArrayList();
                 while ((texto = br.readLine()) != null) {
+                    
                     arreglo.add(texto);
+                    
                 }
                 entrada.close();
 
@@ -57,6 +59,7 @@ class Leer_fichero {
 
        //     System.out.println("" + IPSUCURSAL + SUCURSAL + NOMBRESUCURSAL + TELEFONOSUCURSAL+IMPRESORA);
             } catch (IOException e) {
+                
             }
         } else {
             JOptionPane.showMessageDialog(null, "compruebe que config.TXT EXISTA Y/O tenga los parametros necesarios");

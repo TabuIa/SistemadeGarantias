@@ -5,21 +5,17 @@
  */
 package sistemadegarantias;
 
-import com.toedter.calendar.JDateChooser;
+ 
 import java.awt.HeadlessException;
-import java.awt.Image;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -99,7 +95,7 @@ public class MENUNUEVAGARANTIA extends javax.swing.JFrame {
         BTNGENERAR.setEnabled(false);
         ///************ESCALABLIDAD DE ICONO DE IMAGEN EN BOGTONO O LABEL
         /*
-     /*   ImageIcon imgIcon = new ImageIcon(getClass().getResource("/RECURSOS/Left.png"));
+       /*ImageIcon imgIcon = new ImageIcon(getClass().getResource("/RECURSOS/Left.png"));
         Image imgEscalada = imgIcon.getImage().getScaledInstance(BTNATRAS.getWidth(),
         BTNATRAS.getHeight(), Image.SCALE_SMOOTH);
         Icon iconoEscalado = new ImageIcon(imgEscalada);
@@ -339,7 +335,7 @@ public class MENUNUEVAGARANTIA extends javax.swing.JFrame {
         String vcodigo = "";
         vcodigo = itemcodigo.toString(); 
         
-        if (vcodigo.contains("(LIQ_APAR)")) {
+        if (vcodigo.contains("(LIQ_APAR)")) {//APARTADOS CONDICION
             //System.out.println("Tiene coicidencias "+vcodigo);
            //String vcodigolimpio = vcodigo.replaceAll("[^0-1-2-3-4-5-6-7-8-9]", "");
           // System.out.println("FINAL  "+vcodigolimpio); 
@@ -359,274 +355,280 @@ public class MENUNUEVAGARANTIA extends javax.swing.JFrame {
                 Object itemfolio = (tblCH.getValueAt(filaseleccionada, 1));//caja
                 vfolio = itemfolio.toString();
                 itemcajero=(tblCH.getValueAt(filaseleccionada, 5));//codigo
-                rs = st.executeQuery("select apa.codigo,(select descripcion from codigos where codigo=apa.codigo)as descgenero,\n" +
-"                  cg.garantia,cg.dias,apa.cantidad,apa.precioventa\n" +
-"                  from ventas v, apartadosdetalle apa,codigosgarantias cg\n" +
-"                  where  SubString(v.Codigo, 1,10)=apa.apartado and apa.codigo=cg.codigo and v.fecha ='"+pruebafecha+"' "
-                        + "and v.codigo not in (select codigo from codigos) and v.ClaveVenta='LB'\n" +
-"                  and V.caja='"+vcaja+"' and V.folio='"+vfolio+"' and V.sucursal='"+SUCURSAL+"'");
-            
-               /*          rs = st.executeQuery("select v.codigo,(select descripcion from codigos where codigo=cg.codigo)as descgenero, cg.garantia,cg.dias, v.cantidad,left(sum(cantidad*precioventaneto),6)as precio\n" +
-                    " from ventas v, codigosgarantias cg where v.codigo=cg.codigo and v.fecha='"+pruebafecha+"' and v.caja='"+vcaja+"' and v.folio='"+vfolio+"' and v.sucursal='"+SUCURSAL+"'\n" +
-                    " group by v.codigo,cg.codigo,cg.garantia,v.cantidad,cg.dias");
-*/
+                
+                rs = st.executeQuery("select apa.codigo,(select descripcion from codigos where codigo=apa.codigo)as descgenero,\n"
+                        + "                  cg.garantia,cg.dias,apa.cantidad,apa.precioventa\n"
+                        + "                  from ventas v, apartadosdetalle apa,codigosgarantias cg\n"
+                        + "                  where  SubString(v.Codigo, 1,10)=apa.apartado and apa.codigo=cg.codigo and v.fecha ='" + pruebafecha + "' "
+                        + "and v.codigo not in (select codigo from codigos) and v.ClaveVenta='LB'\n"
+                        + "                  and V.caja='" + vcaja + "' and V.folio='" + vfolio + "' and V.sucursal='" + SUCURSAL + "'");
+
+                /*          rs = st.executeQuery("select v.codigo,(select descripcion from codigos where codigo=cg.codigo)as descgenero, cg.garantia,cg.dias, v.cantidad,left(sum(cantidad*precioventaneto),6)as precio\n" +
+                 " from ventas v, codigosgarantias cg where v.codigo=cg.codigo and v.fecha='"+pruebafecha+"' and v.caja='"+vcaja+"' and v.folio='"+vfolio+"' and v.sucursal='"+SUCURSAL+"'\n" +
+                 " group by v.codigo,cg.codigo,cg.garantia,v.cantidad,cg.dias");
+                 */
                 md = (DefaultTableModel) tblCH.getModel();
                 md.setRowCount(0);
                 try {
 
                    
-          String Header     ="***************************************\n;"
+                    String Header = "***************************************\n;"
                             + "***************GARANTIAS**************\n;"
-                            + "******SUCURSAL: "+NOMBRESUCURSAL+"***********\n;"
-                            + "*********TEL: "+TELEFONOSUCURSAL+"***********\n;"
+                            + "******SUCURSAL: " + NOMBRESUCURSAL + "***********\n;"
+                            + "*********TEL: " + TELEFONOSUCURSAL + "***********\n;"
                             + "                                        \n;"
                             + "Fecha:" + dd.format(gg.getTime()) + "      Hora:" + ddd.format(gg.getTime()) + "\n;"
-                            + "Folio: " + vfolio + " Caja: "+vcaja+"    \n;"
+                            + "Folio: " + vfolio + "            Caja: " + vcaja + "    \n;"
                             + "                                         \n;"
                             + "Pzas " + "Codigo" + "      Garantia " + "Precio" + "\n;"
                             + "     Descripcion     Dias        " + "\n;"
                             + "--------------------------------------\n;";
 
                     String a = "";
+                    String b = "";
                     while (rs.next()) {
                         /// a += rs.getString(1) + "" + rs.getString(4) + "" + rs.getInt(5) +" " + rs.getString(3)+ "\n;";
-                        a +=  rs.getString(5) + " "+ rs.getString(1) + " "  + rs.getString(4) +" $" + rs.getString(6)+ "\n;"
-                       +" "+rs.getString(2)+"\n;";
-                      //  System.out.println( rs.getString(5) + " "+ rs.getString(1) + " "  + rs.getString(4) +" $" + rs.getString(6));
+                        a += rs.getString(5) + " " + rs.getString(1) + " " + rs.getString(4) + " $" + rs.getString(6) + "\n;"
+                                + " " + rs.getString(2) + "\n;";
+                        //  System.out.println( rs.getString(5) + " "+ rs.getString(1) + " "  + rs.getString(4) +" $" + rs.getString(6));
                     }
+                    
                     String h = Header + a;
-                    String amt    =
-
-                    "\n;-----------------------------------\n;"
-                    + "--------------------------------------\n;"
-                    + "NOTA;EL CLIENTE ESTA DE ACUERDO EN QUE\n;"
-                    + "LA MERCANCIA SE LE ENTREGO CON SUS\n;"
-                    + "EMPAQUES ORIGINALES, PROTECTORES  \n;"
-                    + "INSTRUCTIVOS Y ACCESORIOS QUE     \n;"
-                    + "CONTIENE DE FABRICA AL HACER SU   \n;"
-                    + "COMPRA, SE ACEPTA QUE LOS EQUIPOS \n;"
-                    + "FUERON PROBADOS EN PRESENCIA DEL  \n;"
-                    + "CLIENTE SU TICKET ES SU GARANTIA  \n;"
-                    + "**********************************\n;"
-                    + "Esta Garantia aplica Solamente    \n;"
-                    + "en productos comprados en Sounds  \n;"
-                    + "Quien garantiza el funcionamiento \n;"
-                    + "del equipo por el periodo señalado\n;"
-                    + "y bajo las condiciones que estipula\n;"
-                    + "el manual o instructivo del equipo\n;"
-                    + "de los accesorios adquiridos      \n;"  
-                    + "           CONDICIONES            \n;"
-                    + "1.-En todo caso el cliente debe   \n;"
-                    + "presentar la mercancia con el ticket\n;"
-                    + "de compra y empaques en buen estado \n;"
-                    + "2.-En caso de que el articulo tenga\n;"
-                    + "poliza de proveedor,Casa de musica \n;"
-                    + "solo dara el servicio intermediario\n;"
-                    + "entre cliente y el taller autorizado\n;"
-                    + "3.-En cualquier caso,al cliente se le\n;"
-                    + "dara respuesta tanto del diagnostico\n;"
-                    + "como de la reparacion en un lapso \n;"
-                    + "no mayor a 30 dias                \n;"
-                    + "4.-La garantia no aplica en los   \n;"
-                    + "articulos dañados por mal manejo  \n;"
-                    + "del cliente,negligencia en el uso del \n;"
-                    + "articulo,mala instalacion electrica\n;"
-                    + "contingencias climaticas golpes,caidas\n;"
-                    + "polvo, agua y plagas                \n;"
-                    /*+ "5.-En el caso de este producto        \n;"
-                    + "Casa de Musica  de Luxe S.A. de C.V.  \n;"
-                    + "le enviara a su correo electronico    \n;"
-                    + "un manual de recomendaciones  para el \n;"
-                    + "manejo de su equipo           \n;"
-                    + "es importante que lo lea a detalle    \n;"
-                    + "ya que es causa de anulacion          \n;"
-                    + "de la garantia, el no seguir con estas\n;"
-                    + "recomendaciones     \n;"*/
-                    + "ATENDIDO POR:"+itemcajero.toString().toUpperCase()+"\n;"
-                    + "NOMBRE DE CLIENTE:"+JTNOMBRE.getText().toUpperCase()+"\n;"
-                   + "EMAIL:"+JTCORREO.getText()+"\n;"
-                   + "FIRMA:______________________________  \n;"
-                    + "Recuerde que puede consultar nuestro  \n;"
-                    + "aviso de privacidad en WWW.SOUNDS.MX  \n;";
+                    String amt
+                            = "\n;-----------------------------------\n;"
+                            + "--------------------------------------\n;"
+                            + "NOTA;EL CLIENTE ESTA DE ACUERDO EN QUE\n;"
+                            + "LA MERCANCIA SE LE ENTREGO CON SUS\n;"
+                            + "EMPAQUES ORIGINALES, PROTECTORES  \n;"
+                            + "INSTRUCTIVOS Y ACCESORIOS QUE     \n;"
+                            + "CONTIENE DE FABRICA AL HACER SU   \n;"
+                            + "COMPRA, SE ACEPTA QUE LOS EQUIPOS \n;"
+                            + "FUERON PROBADOS EN PRESENCIA DEL  \n;"
+                            + "CLIENTE SU TICKET ES SU GARANTIA  \n;"
+                            + "**********************************\n;"
+                            + "Esta Garantia aplica Solamente    \n;"
+                            + "en productos comprados en Sounds  \n;"
+                            + "Quien garantiza el funcionamiento \n;"
+                            + "del equipo por el periodo señalado\n;"
+                            + "y bajo las condiciones que estipula\n;"
+                            + "el manual o instructivo del equipo\n;"
+                            + "de los accesorios adquiridos      \n;"
+                            + "           CONDICIONES            \n;"
+                            + "1.-En todo caso el cliente debe   \n;"
+                            + "presentar la mercancia con el ticket\n;"
+                            + "de compra y empaques en buen estado \n;"
+                            + "2.-En caso de que el articulo tenga\n;"
+                            + "poliza de proveedor,Casa de musica \n;"
+                            + "solo dara el servicio intermediario\n;"
+                            + "entre cliente y el taller autorizado\n;"
+                            + "3.-En cualquier caso,al cliente se le\n;"
+                            + "dara respuesta tanto del diagnostico\n;"
+                            + "como de la reparacion en un lapso \n;"
+                            + "no mayor a 30 dias                \n;"
+                            + "4.-La garantia no aplica en los   \n;"
+                            + "articulos dañados por mal manejo  \n;"
+                            + "del cliente,negligencia en el uso del \n;"
+                            + "articulo,mala instalacion electrica\n;"
+                            + "contingencias climaticas golpes,caidas\n;"
+                            + "polvo, agua y plagas                \n;"
+                            /*+ "5.-En el caso de este producto        \n;"
+                             + "Casa de Musica  de Luxe S.A. de C.V.  \n;"
+                             + "le enviara a su correo electronico    \n;"
+                             + "un manual de recomendaciones  para el \n;"
+                             + "manejo de su equipo           \n;"
+                             + "es importante que lo lea a detalle    \n;"
+                             + "ya que es causa de anulacion          \n;"
+                             + "de la garantia, el no seguir con estas\n;"
+                             + "recomendaciones     \n;"*/
+                            + "ATENDIDO POR:" + itemcajero.toString().toUpperCase() + "\n;"
+                            + "NOMBRE DE CLIENTE:" + JTNOMBRE.getText().toUpperCase() + "\n;"
+                            + "EMAIL:" + JTCORREO.getText() + "\n;"
+                            + "FIRMA:______________________________  \n;"
+                            + "Recuerde que puede consultar nuestro  \n;"
+                            + "aviso de privacidad en WWW.SOUNDS.MX  \n;";
                     String zbill = h + amt;
                     FORMATOCELDAS p = new FORMATOCELDAS();
                     FORMATOCELDAS.printCard(zbill);//impresion #1 
                     FORMATOCELDAS.printCard(zbill);//impresion #2
-                  
-                     ///******FUNCION INGRESAR DATOS A BD
-                                    try {
-                        //Conexión a la BD   
-                        Class.forName("net.sourceforge.jtds.jdbc.Driver");
-                        Statement st = conexion.createStatement();
-                        st.executeUpdate("USE CML;");
 
-                        ps = conexion.prepareStatement("update top (1) ventaspagos set nombrecliente='"+JTNOMBRE.getText().toUpperCase()+"',telefonocliente='"+JCEL.getText()+"',correocliente='"+JTCORREO.getText()+"'\n" +
-                        "where fecha='"+pruebafecha+"' and sucursal='"+SUCURSAL+"' and caja='"+vcaja+"' and folio='"+vfolio+"' and clavepago<>99");
-                        int n = ps.executeUpdate();///RPEUBAFECHAWEEE
+                        ///******FUNCION INGRESAR DATOS A BD
+                        try {
+                            //Conexión a la BD   
+                            Class.forName("net.sourceforge.jtds.jdbc.Driver");
+                            Statement st = conexion.createStatement();
+                            st.executeUpdate("USE CML;");
 
-                        if (n > 0) {
-                         JOptionPane.showMessageDialog(null, "SE HA GENERADO CORRECTAMENTE LA GARANTIA CON NOMBRE DE:  "+JTNOMBRE.getText().toUpperCase());
-                             JTCORREO.setText("");
-                             JCEL.setText("");
-                             JTNOMBRE.setText("");
+                            ps = conexion.prepareStatement("update top (1) ventaspagos set nombrecliente='" + JTNOMBRE.getText().toUpperCase() + "',telefonocliente='" + JCEL.getText() + "',correocliente='" + JTCORREO.getText() + "'\n"
+                                    + "where fecha='" + pruebafecha + "' and sucursal='" + SUCURSAL + "' and caja='" + vcaja + "' and folio='" + vfolio + "' and clavepago<>99");
+                            int n = ps.executeUpdate();///RPEUBAFECHAWEEE
+
+                            if (n > 0) {
+                                JOptionPane.showMessageDialog(null, "SE HA GENERADO CORRECTAMENTE LA GARANTIA CON NOMBRE DE:  " + JTNOMBRE.getText().toUpperCase());
+                                JTCORREO.setText("");
+                                JCEL.setText("");
+                                JTNOMBRE.setText("");
+                            }
+
+                        } catch (HeadlessException | SQLException ex) {
+                            JOptionPane.showMessageDialog(rootPane, "Error en la base de datos,guarde el folio y en caso de ser necesario reportar a sistemas ext:235");
+                        } catch (ClassNotFoundException ex) {
+                            Logger.getLogger(MENUNUEVAGARANTIA.class.getName()).log(Level.SEVERE, null, ex);
                         }
-
-                    } catch (HeadlessException | SQLException ex) {
-                        JOptionPane.showMessageDialog(rootPane, "Error en la base de datos,guarde el folio y en caso de ser necesario reportar a sistemas ext:235");
-                    } catch (ClassNotFoundException ex) {
-                        Logger.getLogger(MENUNUEVAGARANTIA.class.getName()).log(Level.SEVERE, null, ex);
-        }  
-                    ////////////*****         
-                } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(rootPane, ex.getMessage());
-           JOptionPane.showMessageDialog(this, "Falla al conectar internet/Base de datos, anote el numero de folio y reportelo a la extension #235 con SISTEMAS ");
-                }
-            } catch (HeadlessException | NumberFormatException | SQLException e) {
-                JOptionPane.showMessageDialog(rootPane, e.getMessage());
-                JOptionPane.showMessageDialog(null,"Error revise su conexion de base de datos");
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(MENUNUEVAGARANTIA.class.getName()).log(Level.SEVERE, null, ex);
-            }
-   } else {
-              
-           
-            ////////////////////////////////FUNCION COMPARACION DE RESULTSET RS2 QUERY BUSQUEDSA POR APARTADO                
-            try {
-                Class.forName("net.sourceforge.jtds.jdbc.Driver");
-                java.sql.Connection conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://"+IPSUCURSAL+"", "usounds", "madljda");                st = conexion.createStatement();
-                st.executeUpdate("use CML");
-                Object itemcajero = "";
-                String vcaja = "";
-                String vfolio = "";
-                String pruebafecha = LBLFECHA.getText();
-                Object itemcaja = (tblCH.getValueAt(filaseleccionada, 0));//caja
-                vcaja = itemcaja.toString();
-                Object itemfolio = (tblCH.getValueAt(filaseleccionada, 1));//caja
-                vfolio = itemfolio.toString();
-                itemcajero=(tblCH.getValueAt(filaseleccionada, 5));//codigo
-                rs = st.executeQuery("select v.codigo,(select descripcion from codigos where codigo=cg.codigo)as descgenero, cg.garantia,cg.dias, v.cantidad,left(sum(cantidad*precioventaneto),6)as precio\n" +
-                    " from ventas v, codigosgarantias cg where v.codigo=cg.codigo and v.fecha='"+pruebafecha+"' and v.caja='"+vcaja+"' and v.folio='"+vfolio+"' and v.sucursal='"+SUCURSAL+"'\n" +
-                    " group by v.codigo,cg.codigo,cg.garantia,v.cantidad,cg.dias");
-            
-                md = (DefaultTableModel) tblCH.getModel();
-                md.setRowCount(0);
-                try {                   
-          String Header    = "***************************************\n;"
-                            + "***************GARANTIAS**************\n;"
-                            + "******SUCURSAL: "+NOMBRESUCURSAL+"***********\n;"
-                            + "*********TEL: "+TELEFONOSUCURSAL+"***********\n;"
-                            + "                                        \n;"
-                            + "Fecha:" + dd.format(gg.getTime()) + "      Hora:" + ddd.format(gg.getTime()) + "\n;"
-                          + "Folio: " + vfolio + " Caja: "+vcaja+"    \n;"
-                            + "                                         \n;"
-                            + "Pzas " + "Codigo" + "      Garantia " + "Precio" + "\n;"
-                            + "     Descripcion     Dias        " + "\n;"
-                            + "--------------------------------------\n;";
-
-                    String a = "";
-                    while (rs.next()) {
-                        /// a += rs.getString(1) + "" + rs.getString(4) + "" + rs.getInt(5) +" " + rs.getString(3)+ "\n;";
-                        a +=  rs.getString(5) + " "+ rs.getString(1) + " "  + rs.getString(4) +" $" + rs.getString(6)+ "\n;"
-                       +" "+rs.getString(2)+"\n;";
-                      //  System.out.println( rs.getString(5) + " "+ rs.getString(1) + " "  + rs.getString(4) +" $" + rs.getString(6));
+                        ////////////*****         
+                    } catch (SQLException ex) {
+                        JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+                        JOptionPane.showMessageDialog(this, "Falla al conectar internet/Base de datos, anote el numero de folio y reportelo a la extension #235 con SISTEMAS ");
                     }
-                    String h = Header + a;
-                    String amt    =
-                    "\n;--------------------------------------\n;"
-                    + "--------------------------------------\n;"
-                    + "NOTA;EL CLIENTE ESTA DE ACUERDO EN QUE\n;"
-                    + "LA MERCANCIA SE LE ENTREGO CON SUS\n;"
-                    + "EMPAQUES ORIGINALES, PROTECTORES  \n;"
-                    + "INSTRUCTIVOS Y ACCESORIOS QUE     \n;"
-                    + "CONTIENE DE FABRICA AL HACER SU   \n;"
-                    + "COMPRA, SE ACEPTA QUE LOS EQUIPOS \n;"
-                    + "FUERON PROBADOS EN PRESENCIA DEL  \n;"
-                    + "CLIENTE SU TICKET ES SU GARANTIA  \n;"
-                    + "**********************************\n;"
-                    + "Esta Garantia aplica Solamente    \n;"
-                    + "en productos comprados en Sounds  \n;"
-                    + "Quien garantiza el funcionamiento \n;"
-                    + "del equipo por el periodo señalado\n;"
-                    + "y bajo las condiciones que estipula\n;"
-                    + "el manual o instructivo del equipo\n;"
-                    + "de los accesorios adquiridos      \n;"  
-                    + "           CONDICIONES            \n;"
-                    + "1.-En todo caso el cliente debe   \n;"
-                    + "presentar la mercancia con el ticket\n;"
-                    + "de compra y empaques en buen estado \n;"
-                    + "2.-En caso de que el articulo tenga\n;"
-                    + "poliza de proveedor,Casa de musica \n;"
-                    + "solo dara el servicio intermediario\n;"
-                    + "entre cliente y el taller autorizado\n;"
-                    + "3.-En cualquier caso,al cliente se le\n;"
-                    + "dara respuesta tanto del diagnostico\n;"
-                    + "como de la reparacion en un lapso \n;"
-                    + "no mayor a 30 dias                \n;"
-                    + "4.-La garantia no aplica en los   \n;"
-                    + "articulos dañados por mal manejo  \n;"
-                    + "del cliente,negligencia en el uso del \n;"
-                    + "articulo,mala instalacion electrica\n;"
-                    + "contingencias climaticas golpes,caidas\n;"
-                    + "polvo, agua y plagas                \n;"
-                    /*+ "5.-En el caso de este producto        \n;"
-                    + "Casa de Musica  de Luxe S.A. de C.V.  \n;"
-                    + "le enviara a su correo electronico    \n;"
-                    + "un manual de recomendaciones  para el \n;"
-                    + "manejo de su equipo           \n;"
-                    + "es importante que lo lea a detalle    \n;"
-                    + "ya que es causa de anulacion          \n;"
-                    + "de la garantia, el no seguir con estas\n;"
-                    + "recomendaciones     \n;"*/
-                    + "ATENDIDO POR:"+itemcajero.toString().toUpperCase()+"\n;"
-                    + "NOMBRE DE CLIENTE:"+JTNOMBRE.getText().toUpperCase()+"\n;"
-                   + "EMAIL:"+JTCORREO.getText()+"\n;"
-                   + "FIRMA:______________________________  \n;"
-                    + "Recuerde que puede consultar nuestro  \n;"
-                    + "aviso de privacidad en WWW.SOUNDS.MX  \n;";
-                    String zbill = h + amt;
-                    FORMATOCELDAS p = new FORMATOCELDAS();
-                    FORMATOCELDAS.printCard(zbill);//impresion #1 
-                  FORMATOCELDAS.printCard(zbill);//impresion #2
-                     ///******FUNCION INGRESAR DATOS A BD
-                                    try {
-                        //Conexión a la BD   
-                        Class.forName("net.sourceforge.jtds.jdbc.Driver");
-                        Statement st = conexion.createStatement();
-                        st.executeUpdate("USE CML;");
-
-                        ps = conexion.prepareStatement("update top (1) ventaspagos set nombrecliente='"+JTNOMBRE.getText().toUpperCase()+"',telefonocliente='"+JCEL.getText()+"',correocliente='"+JTCORREO.getText()+"'\n" +
-                        "where fecha='"+pruebafecha+"' and sucursal='"+SUCURSAL+"' and caja='"+vcaja+"' and folio='"+vfolio+"' and clavepago<>99");
-                        int n = ps.executeUpdate();
-
-                        if (n > 0) {
-                         JOptionPane.showMessageDialog(null, "SE HA GENERADO CORRECTAMENTE LA GARANTIA CON NOMBRE DE:  "+JTNOMBRE.getText().toUpperCase());
-                             JTCORREO.setText("");
-                             JCEL.setText("");
-                             JTNOMBRE.setText("");
-                        }
-
-                    } catch (HeadlessException | SQLException ex) {
-                        JOptionPane.showMessageDialog(rootPane, "Error en la base de datos,guarde el folio y en caso de ser necesario reportar a sistemas ext:235");
-                    } catch (ClassNotFoundException ex) {
-                        Logger.getLogger(MENUNUEVAGARANTIA.class.getName()).log(Level.SEVERE, null, ex);
-        }  
-                    ////////////*****         
-                } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(rootPane, ex.getMessage());
-           JOptionPane.showMessageDialog(this, "Falla al conectar internet/Base de datos, anote el numero de folio y reportelo a la extension #235 con SISTEMAS ");
-
+                } catch (HeadlessException | NumberFormatException | SQLException e) {
+                    JOptionPane.showMessageDialog(rootPane, e.getMessage());
+                    JOptionPane.showMessageDialog(null, "Error revise su conexion de base de datos");
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(MENUNUEVAGARANTIA.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            } catch (HeadlessException | NumberFormatException | SQLException e) {
-                JOptionPane.showMessageDialog(rootPane, e.getMessage());
-                JOptionPane.showMessageDialog(null,"Error revise su conexion de base de datos");
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(MENUNUEVAGARANTIA.class.getName()).log(Level.SEVERE, null, ex);
-            } }
+            } else {
+
+                ////////////////////////////////FUNCION COMPARACION DE RESULTSET RS2 QUERY BUSQUEDSA POR APARTADO                
+                try {
+                    Class.forName("net.sourceforge.jtds.jdbc.Driver");
+                    java.sql.Connection conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://" + IPSUCURSAL + "", "usounds", "madljda");
+                    st = conexion.createStatement();
+                    st.executeUpdate("use CML");
+                    Object itemcajero = "";
+                    String vcaja = "";
+                    String vfolio = "";
+                    String pruebafecha = LBLFECHA.getText();
+                    Object itemcaja = (tblCH.getValueAt(filaseleccionada, 0));//caja
+                    vcaja = itemcaja.toString();
+                    Object itemfolio = (tblCH.getValueAt(filaseleccionada, 1));//caja
+                    vfolio = itemfolio.toString();
+                    itemcajero = (tblCH.getValueAt(filaseleccionada, 5));//codigo
+                    rs = st.executeQuery("select v.codigo,(select descripcion from codigos where codigo=cg.codigo)as descgenero, cg.garantia,cg.dias, v.cantidad,left(sum(cantidad*precioventaneto),6)as precio\n"
+                            + " from ventas v, codigosgarantias cg where v.codigo=cg.codigo and v.fecha='" + pruebafecha + "' and v.caja='" + vcaja + "' and v.folio='" + vfolio + "' and v.sucursal='" + SUCURSAL + "'\n"
+                            + " group by v.codigo,cg.codigo,cg.garantia,v.cantidad,cg.dias");
+
+                    md = (DefaultTableModel) tblCH.getModel();
+                    md.setRowCount(0);
+                    try {
+                        String Header = "***************************************\n;"
+                                + "***************GARANTIAS**************\n;"
+                                + "******SUCURSAL: " + NOMBRESUCURSAL + "***********\n;"
+                                + "*********TEL: " + TELEFONOSUCURSAL + "***********\n;"
+                                + "                                        \n;"
+                                + "Fecha:" + dd.format(gg.getTime()) + "      Hora:" + ddd.format(gg.getTime()) + "\n;"
+                                + "Folio: " + vfolio + "             Caja: " + vcaja + "    \n;"
+                                + "                                         \n;"
+                                + "Pzas " + "Codigo" + "      Garantia " + "Precio" + "\n;"
+                                + "     Descripcion     Dias        " + "\n;"
+                                + "--------------------------------------\n;";
+
+                        String a = "";
+                        String b = "";
+                        while (rs.next()) {
+                            /// a += rs.getString(1) + "" + rs.getString(4) + "" + rs.getInt(5) +" " + rs.getString(3)+ "\n;";
+                            a += rs.getString(5) + " " + rs.getString(1) + " " + rs.getString(4) + " $" + rs.getString(6) + "\n;"
+                                    + " " + rs.getString(2) + "\n;";
+
+                            b += rs.getString(7);
+                            //  System.out.println( rs.getString(5) + " "+ rs.getString(1) + " "  + rs.getString(4) +" $" + rs.getString(6));
+                        }
+                        String h = Header + a;
+                        String amt
+                                = "\n;--------------------------------------\n;"
+                                + "--------------------------------------\n;"
+                                + "NOTA;EL CLIENTE ESTA DE ACUERDO EN QUE\n;"
+                                + "LA MERCANCIA SE LE ENTREGO CON SUS\n;"
+                                + "EMPAQUES ORIGINALES, PROTECTORES  \n;"
+                                + "INSTRUCTIVOS Y ACCESORIOS QUE     \n;"
+                                + "CONTIENE DE FABRICA AL HACER SU   \n;"
+                                + "COMPRA, SE ACEPTA QUE LOS EQUIPOS \n;"
+                                + "FUERON PROBADOS EN PRESENCIA DEL  \n;"
+                                + "CLIENTE SU TICKET ES SU GARANTIA  \n;"
+                                + "**********************************\n;"
+                                + "Esta Garantia aplica Solamente    \n;"
+                                + "en productos comprados en Sounds  \n;"
+                                + "Quien garantiza el funcionamiento \n;"
+                                + "del equipo por el periodo señalado\n;"
+                                + "y bajo las condiciones que estipula\n;"
+                                + "el manual o instructivo del equipo\n;"
+                                + "de los accesorios adquiridos      \n;"
+                                + "           CONDICIONES            \n;"
+                                + "1.-En todo caso el cliente debe   \n;"
+                                + "presentar la mercancia con el ticket\n;"
+                                + "de compra y empaques en buen estado \n;"
+                                + "2.-En caso de que el articulo tenga\n;"
+                                + "poliza de proveedor,Casa de musica \n;"
+                                + "solo dara el servicio intermediario\n;"
+                                + "entre cliente y el taller autorizado\n;"
+                                + "3.-En cualquier caso,al cliente se le\n;"
+                                + "dara respuesta tanto del diagnostico\n;"
+                                + "como de la reparacion en un lapso \n;"
+                                + "no mayor a 30 dias                \n;"
+                                + "4.-La garantia no aplica en los   \n;"
+                                + "articulos dañados por mal manejo  \n;"
+                                + "del cliente,negligencia en el uso del \n;"
+                                + "articulo,mala instalacion electrica\n;"
+                                + "contingencias climaticas golpes,caidas\n;"
+                                + "polvo, agua y plagas                \n;"
+                                /*+ "5.-En el caso de este producto        \n;"
+                                 + "Casa de Musica  de Luxe S.A. de C.V.  \n;"
+                                 + "le enviara a su correo electronico    \n;"
+                                 + "un manual de recomendaciones  para el \n;"
+                                 + "manejo de su equipo           \n;"
+                                 + "es importante que lo lea a detalle    \n;"
+                                 + "ya que es causa de anulacion          \n;"
+                                 + "de la garantia, el no seguir con estas\n;"
+                                 + "recomendaciones     \n;"*/
+                                + "ATENDIDO POR:" + itemcajero.toString().toUpperCase() + "\n;"
+                                + "NOMBRE DE CLIENTE:" + JTNOMBRE.getText().toUpperCase() + "\n;"
+                                + "EMAIL:" + JTCORREO.getText() + "\n;"
+                                + "FIRMA:______________________________  \n;"
+                                + "Recuerde que puede consultar nuestro  \n;"
+                                + "aviso de privacidad en WWW.SOUNDS.MX  \n;";
+                        String zbill = h + amt;
+                        FORMATOCELDAS p = new FORMATOCELDAS();
+                        FORMATOCELDAS.printCard(zbill);//impresion #1 
+                        FORMATOCELDAS.printCard(zbill);//impresion #2
+                        ///******FUNCION INGRESAR DATOS A BD
+                        try {
+                            //Conexión a la BD   
+                            Class.forName("net.sourceforge.jtds.jdbc.Driver");
+                            Statement st = conexion.createStatement();
+                            st.executeUpdate("USE CML;");
+
+                            ps = conexion.prepareStatement("update top (1) ventaspagos set nombrecliente='" + JTNOMBRE.getText().toUpperCase() + "',telefonocliente='" + JCEL.getText() + "',correocliente='" + JTCORREO.getText() + "'\n"
+                                    + "where fecha='" + pruebafecha + "' and sucursal='" + SUCURSAL + "' and caja='" + vcaja + "' and folio='" + vfolio + "' and clavepago<>99");
+                            int n = ps.executeUpdate();
+
+                            if (n > 0) {
+                                JOptionPane.showMessageDialog(null, "SE HA GENERADO CORRECTAMENTE LA GARANTIA CON NOMBRE DE:  " + JTNOMBRE.getText().toUpperCase());
+                                JTCORREO.setText("");
+                                JCEL.setText("");
+                                JTNOMBRE.setText("");
+                            }
+
+                        } catch (HeadlessException | SQLException ex) {
+                            JOptionPane.showMessageDialog(rootPane, "Error en la base de datos,guarde el folio y en caso de ser necesario reportar a sistemas ext:235");
+                        } catch (ClassNotFoundException ex) {
+                            Logger.getLogger(MENUNUEVAGARANTIA.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        ////////////*****         
+                    } catch (SQLException ex) {
+                        JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+                        JOptionPane.showMessageDialog(this, "Falla al conectar internet/Base de datos, anote el numero de folio y reportelo a la extension #235 con SISTEMAS ");
+
+                    }
+                } catch (HeadlessException | NumberFormatException | SQLException e) {
+                    JOptionPane.showMessageDialog(rootPane, e.getMessage());
+                    JOptionPane.showMessageDialog(null, "Error revise su conexion de base de datos");
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(MENUNUEVAGARANTIA.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         } else {
             JOptionPane.showMessageDialog(this, "No ha seleccionado ninguna fila o la tabla está vacía");
         }
 
-          
+
     }//GEN-LAST:event_BTNGENERARActionPerformed
     private void BTNATRASActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNATRASActionPerformed
         // TODO add your handling code here:
@@ -646,13 +648,13 @@ public class MENUNUEVAGARANTIA extends javax.swing.JFrame {
         int folio = JTFOLIO.getValue();
         String caja = CBCAJA.getSelectedItem().toString();
         String pruebafecha = LBLFECHA.getText();
-      
+
         try {
             Class.forName("net.sourceforge.jtds.jdbc.Driver");
             java.sql.Connection conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://" + IPSUCURSAL + "", "usounds", "madljda");
             st = conexion.createStatement();
             st.executeUpdate("use CML");
-          //  JOptionPane.showMessageDialog(rootPane, "PRUEBA FECHA"+pruebafecha);
+            //  JOptionPane.showMessageDialog(rootPane, "PRUEBA FECHA"+pruebafecha);
             //Seleccionar datos      rs = st.executeQuery("select caja,folio,codigo,precioventaneto ,(select descripcion from codigos where codigo=ventas.codigo)as descrip,(select nombrec from empleados where empleado=ventas.cajero)as cajero from ventas where fecha='"+pruebafecha+"' and sucursal='"+SUCURSAL+"' and folio='" + folio + "' and caja='" + caja + "'; ");
 
             rs = st.executeQuery("select caja,folio,codigo,precioventaneto ,(select descripcion from codigos where codigo=ventas.codigo)as descrip,(select nombrec from empleados where empleado=ventas.cajero)as cajero from ventas where fecha='" + pruebafecha + "' and sucursal='" + SUCURSAL + "' and folio='" + folio + "' and caja='" + caja + "'; ");
@@ -669,7 +671,6 @@ public class MENUNUEVAGARANTIA extends javax.swing.JFrame {
                 if (CONT == 0) {
                     JOptionPane.showMessageDialog(null, "No se encontraron elementos");
                 }
-
 
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(rootPane, ex.getMessage());
