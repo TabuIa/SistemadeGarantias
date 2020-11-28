@@ -278,19 +278,16 @@ public class MENUREIMPRIMIR extends javax.swing.JFrame {
 
             md = (DefaultTableModel) tblCH.getModel();
             md.setRowCount(0);
-            try {
-
+            try { 
                 while (rs.next()) {
-
-                    Object[] fila = {rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getDouble(4), rs.getString(5), rs.getString(6)};
+                      Object[] fila = {rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getDouble(4), rs.getString(5), rs.getString(6)};
                     md.addRow(fila);
                 }
 
                 int CONT = md.getRowCount();
                 if (CONT == 0) {
                     JOptionPane.showMessageDialog(null, "No se encontraron elementos");
-
-                }
+                 }
 
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(rootPane, ex.getMessage());
@@ -309,13 +306,9 @@ public class MENUREIMPRIMIR extends javax.swing.JFrame {
     }//GEN-LAST:event_CBCAJAActionPerformed
 
     private void BTNGENERARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNGENERARActionPerformed
-        // TODO add your handling code here:.    String NOM="";
-        int filaseleccionada = tblCH.getSelectedRow();
-        //Object itemcodigo = (tblCH.getValueAt(filaseleccionada, 2));//caja
-        //  String vcodigo = "";
-        //  vcodigo = itemcodigo.toString();
-   if (filaseleccionada >= 0) {
-         
+         int filaseleccionada = tblCH.getSelectedRow();
+          if (filaseleccionada >= 0) {
+
             int folio = JTFOLIO.getValue();
             String caja = CBCAJA.getSelectedItem().toString();
             Date pruebafecha = JTFECHA.getDate();
@@ -327,11 +320,9 @@ public class MENUREIMPRIMIR extends javax.swing.JFrame {
                 reimpresionporloquidacion();
             } else {
                 reimpresion();
-                
             }
         } else {
             JOptionPane.showMessageDialog(this, "No ha seleccionado ninguna fila o la tabla está vacía");
-
         }
 
     }//GEN-LAST:event_BTNGENERARActionPerformed
@@ -372,7 +363,7 @@ public class MENUREIMPRIMIR extends javax.swing.JFrame {
                                 + "*********TEL: " + TELEFONOSUCURSAL + "***********\n;"
                                 + "                                        \n;"
                                 + "Fecha:" + fechaformateada2.trim() + "      Hora:" + ddd.format(gg.getTime()) + "\n;"
-                                + "Folio: " + vfolio + "            Caja: "+vcaja+"    \n;"
+                                + "Folio: " + vfolio + "              Caja: "+vcaja+"    \n;"
                                 + "                                         \n;"
                                 + "Pzas " + "Codigo" + "      Garantia " + "Precio" + "\n;"
                                 + "     Descripcion     Dias        " + "\n;"
@@ -391,7 +382,7 @@ public class MENUREIMPRIMIR extends javax.swing.JFrame {
                             CORREORS = rs.getString(10)+"";
                             NOMBRECLIERS = rs.getString(8)+"";
                             CAJERORS = rs.getString(7)+"";
-                            System.out.println("8=========D---"+rs.getString(8)+rs.getString(9)+rs.getString(10));
+                          //  System.out.println("8=========D---"+rs.getString(8)+rs.getString(9)+rs.getString(10));
                             b += rs.getString(11).trim() + "";
                         }
                       
@@ -476,7 +467,7 @@ public class MENUREIMPRIMIR extends javax.swing.JFrame {
                         FORMATOCELDAS p = new FORMATOCELDAS();
                         FORMATOCELDAS.printCard(zbill);; ///primer ticket
                         //  FORMATOCELDAS.printCard(zbill);; ///segundo ticket
-                        JOptionPane.showMessageDialog(null, "SE HA REIMPRESO CORRECTAMENTE LA GARANTIA CON NOMBRE DE:  " + NOMBRECLIERS);
+                        JOptionPane.showMessageDialog(null, "SE HA REIMPRESO CORRECTAMENTE LA GARANTIA CON NOMBRE DE:  " + NOMBRECLIERS.trim().toUpperCase());
 
                     } catch (SQLException ex) {
                         JOptionPane.showMessageDialog(this, "Falla al conectar internet/Base de datos, anote el numero de folio y reportelo a la extension #235 con SISTEMAS ");
@@ -531,7 +522,7 @@ public class MENUREIMPRIMIR extends javax.swing.JFrame {
                         + "*********TEL: " + TELEFONOSUCURSAL + "***********\n;"
                         + "                                        \n;"
                         + "Fecha:" + fechaformateada2.trim() + "      Hora:" + ddd.format(gg.getTime()) + "\n;"
-                        + "Folio: " + vfolio + "           Caja: " + vcaja + "    \n;"
+                        + "Folio: " + vfolio + "              Caja: " + vcaja + "    \n;"
                         + "                                         \n;"
                         + "Pzas " + "Codigo" + "      Garantia " + "Precio" + "\n;"
                         + "     Descripcion     Dias        " + "\n;"
@@ -634,7 +625,7 @@ public class MENUREIMPRIMIR extends javax.swing.JFrame {
                 FORMATOCELDAS p = new FORMATOCELDAS();
                 FORMATOCELDAS.printCard(zbill);; ///primer ticket
                 // FORMATOCELDAS.printCard(zbill);; ///segundo ticket
-                JOptionPane.showMessageDialog(null, "SE HA REIMPRESO CORRECTAMENTE LA GARANTIA CON NOMBRE DE:  " + NOMBRECLIERS.trim());
+                JOptionPane.showMessageDialog(null, "SE HA REIMPRESO CORRECTAMENTE LA GARANTIA CON NOMBRE DE:  " + NOMBRECLIERS.trim().toUpperCase());
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(this, "Falla al conectar internet/Base de datos, vuelva a intentarlo o anote el numero de folio y reportelo a la extension #235 con SISTEMAS ");
             }
@@ -647,11 +638,7 @@ public class MENUREIMPRIMIR extends javax.swing.JFrame {
     }
 
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not avai6lable, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+        
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {

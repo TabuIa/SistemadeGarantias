@@ -310,11 +310,17 @@ public class MENUNUEVAGARANTIA extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void JTCORREOKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_JTCORREOKeyTyped
-
+  if (JTCORREO.getText().length() == 50) {
+            JOptionPane.showMessageDialog(null, "Solo 50 caracteres", "Alerta", JOptionPane.WARNING_MESSAGE);
+            evt.consume();
+        }
     }//GEN-LAST:event_JTCORREOKeyTyped
 
     private void JTNOMBREKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_JTNOMBREKeyTyped
-      
+  if (JTNOMBRE.getText().length() == 35) {
+            JOptionPane.showMessageDialog(null, "Solo 35 caracteres", "Alerta", JOptionPane.WARNING_MESSAGE);
+            evt.consume();
+        }      
     }//GEN-LAST:event_JTNOMBREKeyTyped
 
     private void BTNGENERARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNGENERARActionPerformed
@@ -407,7 +413,10 @@ public class MENUNUEVAGARANTIA extends javax.swing.JFrame {
     }//GEN-LAST:event_JCELKeyReleased
 
     private void JCELKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_JCELKeyTyped
-        // TODO add your handling code here:
+       if (JCEL.getText().length() == 30) {
+            JOptionPane.showMessageDialog(null, "Solo 30 caracteres", "Alerta", JOptionPane.WARNING_MESSAGE);
+            evt.consume();
+        }
     }//GEN-LAST:event_JCELKeyTyped
 
     public void imprimegarantiaporliquidacion() {
@@ -457,7 +466,7 @@ public class MENUNUEVAGARANTIA extends javax.swing.JFrame {
                             + "*********TEL: " + TELEFONOSUCURSAL + "***********\n;"
                             + "                                        \n;"
                             + "Fecha:" + dd.format(gg.getTime()) + "      Hora:" + ddd.format(gg.getTime()) + "\n;"
-                            + "Folio: " + vfolio + "            Caja: " + vcaja + "    \n;"
+                            + "Folio: " + vfolio + "             Caja: " + vcaja + "    \n;"
                             + "                                         \n;"
                             + "Pzas " + "Codigo" + "      Garantia " + "Precio" + "\n;"
                             + "     Descripcion     Dias        " + "\n;"
@@ -622,7 +631,7 @@ public class MENUNUEVAGARANTIA extends javax.swing.JFrame {
                                 + "*********TEL: " + TELEFONOSUCURSAL + "***********\n;"
                                 + "                                        \n;"
                                 + "Fecha:" + dd.format(gg.getTime()) + "      Hora:" + ddd.format(gg.getTime()) + "\n;"
-                                + "Folio: " + vfolio + "             Caja: " + vcaja + "    \n;"
+                                + "Folio: " + vfolio + "              Caja: " + vcaja + "    \n;"
                                 + "                                         \n;"
                                 + "Pzas " + "Codigo" + "      Garantia " + "Precio" + "\n;"
                                 + "     Descripcion     Dias        " + "\n;"
