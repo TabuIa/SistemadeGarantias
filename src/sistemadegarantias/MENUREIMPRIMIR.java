@@ -42,6 +42,13 @@ public class MENUREIMPRIMIR extends javax.swing.JFrame {
         PreparedStatement ps = null;
         ResultSet rs,rs2;
         DefaultTableModel md;
+        GregorianCalendar gg = new GregorianCalendar();
+        SimpleDateFormat dd = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat ddd = new SimpleDateFormat("HH:mm");
+        SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd", Locale.getDefault());
+        SimpleDateFormat sdfr = new SimpleDateFormat("dd/MM/YYYY", Locale.getDefault());
+       
+
  
     public MENUREIMPRIMIR() {
            initComponents();
@@ -259,15 +266,13 @@ public class MENUREIMPRIMIR extends javax.swing.JFrame {
         String fechaformateada = sdf.format(JTFECHA.getDate());
         int folio = JTFOLIO.getValue();
         String caja = CBCAJA.getSelectedItem().toString();
- 
- 
+  
         try {
             Class.forName("net.sourceforge.jtds.jdbc.Driver");
             java.sql.Connection conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://"+IPSUCURSAL+"", "usounds", "madljda");
             st = conexion.createStatement();
             st.executeUpdate("use CML");
-
-            //Seleccionar datos
+    //Seleccionar datos
             // rs = st.executeQuery("select caja,folio,articulo,codigo,precioventa FROM VENTAS WHERE FOLIO='"+folio+"' and FECHA='"+fechaformateada+"' and CAJA='"+caja+"' ;");
             rs = st.executeQuery("select caja,folio,codigo,precioventaneto ,(select descripcion from codigos where codigo=ventas.codigo)as descrip,(select nombrec from empleados where empleado=ventas.cajero)as cajero from ventas where fecha='" + fechaformateada + "' and sucursal='"+SUCURSAL+"' and folio='" + folio + "' and caja='" + caja + "'; ");
 
@@ -309,13 +314,8 @@ public class MENUREIMPRIMIR extends javax.swing.JFrame {
         //Object itemcodigo = (tblCH.getValueAt(filaseleccionada, 2));//caja
         //  String vcodigo = "";
         //  vcodigo = itemcodigo.toString();
-        GregorianCalendar gg = new GregorianCalendar();
-        SimpleDateFormat dd = new SimpleDateFormat("dd/MM/yyyy");
-        SimpleDateFormat ddd = new SimpleDateFormat("HH:mm");
-        SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd", Locale.getDefault());
-        if (filaseleccionada >= 0) {
-
-            String fechaformateada = sdf.format(JTFECHA.getDate());
+   if (filaseleccionada >= 0) {
+         
             int folio = JTFOLIO.getValue();
             String caja = CBCAJA.getSelectedItem().toString();
             Date pruebafecha = JTFECHA.getDate();
@@ -324,24 +324,40 @@ public class MENUREIMPRIMIR extends javax.swing.JFrame {
             String vcodigo = "";
             vcodigo = itemcodigo.toString();
             if (vcodigo.contains("(LIQ_APAR)")) {
+                reimpresionporloquidacion();
+            } else {
+                reimpresion();
+                
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "No ha seleccionado ninguna fila o la tabla está vacía");
 
-                try {
-                    Class.forName("net.sourceforge.jtds.jdbc.Driver");
-                    java.sql.Connection conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://" + IPSUCURSAL + "", "usounds", "madljda");
-                    st = conexion.createStatement();
-                    st.executeUpdate("use CML");
-                    Object itemcajero = "";
-                    //Seleccionar datos
+        }
+
+    }//GEN-LAST:event_BTNGENERARActionPerformed
+
+    public void reimpresionporloquidacion() {
+
+        int filaseleccionada = tblCH.getSelectedRow();
+        String fechaformateada = sdf.format(JTFECHA.getDate());
+        String fechaformateada2 = sdfr.format(JTFECHA.getDate());
+        try {
+            Class.forName("net.sourceforge.jtds.jdbc.Driver");
+            java.sql.Connection conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://" + IPSUCURSAL + "", "usounds", "madljda");
+            st = conexion.createStatement();
+            st.executeUpdate("use CML");
+            Object itemcajero = "";
+            //Seleccionar datos
                     Object itemcaja = (tblCH.getValueAt(filaseleccionada, 0));//caja
                     String vcaja = itemcaja.toString();
                     Object itemfolio = (tblCH.getValueAt(filaseleccionada, 1));//folio
                     String vfolio = itemfolio.toString();
                     itemcajero = (tblCH.getValueAt(filaseleccionada, 5));//codigo
                     rs = st.executeQuery("select apa.codigo,(select descripcion from codigos where codigo=apa.codigo)as descgenero,cg.garantia,cg.dias,apa.cantidad,apa.precioventa,\n"
-                            + "(select nombrec from empleados where empleado=v.cajero) as cajero,vp.nombrecliente,vp.telefonocliente,vp.correocliente\n"
+                            + "(select nombrec from empleados where empleado=v.cajero) as cajero,vp.nombrecliente,vp.telefonocliente,vp.correocliente,(select genero from codigos where codigo=apa.codigo)as descgenero\n"
                             + "from ventas v, apartadosdetalle apa,codigosgarantias cg, ventaspagos vp\n"
-                            + "where  v.fecha=vp.fecha and v.folio=vp.folio and v.caja=vp.caja and v.sucursal=vp.sucursal and SubString(v.Codigo, 1,10)=apa.apartado and apa.codigo=cg.codigo and v.fecha ='" + fechaformateada + "' and v.codigo not in (select codigo from codigos) and v.ClaveVenta='LB'\n"
-                            + "and V.caja='" + vcaja + "' and V.folio='" + vfolio + "' and V.sucursal='" + SUCURSAL + "'");
+                            + "where  v.fecha=vp.fecha and v.folio=vp.folio and v.caja=vp.caja and v.sucursal=vp.sucursal and SubString(v.Codigo, 1,10)=apa.apartado and apa.codigo=cg.codigo and v.fecha ='" + fechaformateada + "' and v.codigo not in (select codigo from codigos) and v.ClaveVenta IN ('LB','LN','LI')\n"
+                            + "and V.caja='" + vcaja + "' and V.folio='" + vfolio + "' and V.sucursal='" + SUCURSAL + "' order by NombreCliente  asc");
 
                     ////   System.out.println("fechaformateada"+fechaformateada); ES EL BUENO PARA IQUERYS
                     md = (DefaultTableModel) tblCH.getModel();
@@ -350,12 +366,12 @@ public class MENUREIMPRIMIR extends javax.swing.JFrame {
                     try {
 
                         String Header
-                                = "***************************************\n;"
+                                = "***************REIMPRESION***************\n;"
                                 + "***************GARANTIAS**************\n;"
                                 + "******SUCURSAL: " + NOMBRESUCURSAL + "***********\n;"
                                 + "*********TEL: " + TELEFONOSUCURSAL + "***********\n;"
                                 + "                                        \n;"
-                                + "Fecha:" + dd.format(gg.getTime()) + "      Hora:" + ddd.format(gg.getTime()) + "\n;"
+                                + "Fecha:" + fechaformateada2.trim() + "      Hora:" + ddd.format(gg.getTime()) + "\n;"
                                 + "Folio: " + vfolio + "            Caja: "+vcaja+"    \n;"
                                 + "                                         \n;"
                                 + "Pzas " + "Codigo" + "      Garantia " + "Precio" + "\n;"
@@ -363,21 +379,44 @@ public class MENUREIMPRIMIR extends javax.swing.JFrame {
                                 + "--------------------------------------\n;";
 
                         String a = "";
+                        String b = "";
                         String CORREORS = "";
                         String NOMBRECLIERS = "";
                         String CAJERORS = "";
+                        
                         while (rs.next()) {
 
                             a += rs.getString(5) + " " + rs.getString(1) + " " + rs.getString(4) + " $" + rs.getString(6) + "\n;"
                                     + " " + rs.getString(2) + "\n;";
-                            CORREORS = rs.getString(10);
-                            NOMBRECLIERS = rs.getString(8);
-                            CAJERORS = rs.getString(7);
-
+                            CORREORS = rs.getString(10)+"";
+                            NOMBRECLIERS = rs.getString(8)+"";
+                            CAJERORS = rs.getString(7)+"";
+                            System.out.println("8=========D---"+rs.getString(8)+rs.getString(9)+rs.getString(10));
+                            b += rs.getString(11).trim() + "";
                         }
-
+                      
+                        String capricho = "";
+                        if (b.contains("154")) {
+                            System.out.println("lleva bafle");
+                            capricho
+                                    = "2 Meses de Garantia solo por defectos\n;"
+                                    + "de fabrica,15 dias de garantia en los \n;"
+                                    + "accesorios que contiene (tripie sin \n;"
+                                    + "garantia) \n;"
+                                    + "Si requiere asistencia tecnica o\n;"
+                                    + "garantias debe acudir directamente\n;"
+                                    + "a nuestro taller de servicio ubicado \n;"
+                                    + "en Av. Antonio J.Bermudez #1550 entre\n;"
+                                    + "Av.Tomas Fernandez calle ohm,Parque\n;"
+                                    + "industrial Antonio J.Bermudez,horario\n;"
+                                    + "de Lunes a Viernes de 9:00 am a 1:30 pm \n;"
+                                    + "de 3:00 a 5:00 pm,Sabados de 9:00 am \n:"
+                                    + "a 12:30 pm, hacer previa cita al;"
+                                    + "telefono 616-1194, extension 0 \n;";
+                        } else {
+                            System.out.println(" NO LLEVA BAFLE");
+                        }
                         String h = Header + a;
-
                         String amt
                                 = "\n;-----------------------------------\n;"
                                 + "--------------------------------------\n;"
@@ -430,8 +469,9 @@ public class MENUREIMPRIMIR extends javax.swing.JFrame {
                                 + "FIRMA:______________________________  \n;"
                                 + "Recuerde que puede consultar nuestro  \n;"
                                 + "aviso de privacidad en WWW.SOUNDS.MX  \n;";
-                        //             JOptionPane.showMessageDialog(null,"VARIS"+NOMBRECLIERS+CORREORS);
-                        String zbill = h + amt;/// suma de header y cuerpo
+                        
+                         //      JOptionPane.showMessageDialog(null,"VARIS"+NOMBRECLIERS+CORREORS);
+                        String zbill = h + amt+capricho;/// suma de header y cuerpo
 
                         FORMATOCELDAS p = new FORMATOCELDAS();
                         FORMATOCELDAS.printCard(zbill);; ///primer ticket
@@ -449,145 +489,163 @@ public class MENUREIMPRIMIR extends javax.swing.JFrame {
                     Logger.getLogger(MENUREIMPRIMIR.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
-                /////////////****************************************
-            } else {
+    }
 
-                //FUNCION OBTENER FECHA
-                try {
-                    Class.forName("net.sourceforge.jtds.jdbc.Driver");
-                    java.sql.Connection conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://" + IPSUCURSAL + "", "usounds", "madljda");
-                    st = conexion.createStatement();
-                    st.executeUpdate("use CML");
-                    Object itemcajero = "";
-                    //Seleccionar datos
+    public void reimpresion() {
 
-                    Object itemcaja = (tblCH.getValueAt(filaseleccionada, 0));//caja
-                    String vcaja = itemcaja.toString();
-                    Object itemfolio = (tblCH.getValueAt(filaseleccionada, 1));//folio
-                    String vfolio = itemfolio.toString();
+        String fechaformateada = sdf.format(JTFECHA.getDate());
+        String fechaformateada2 = sdfr.format(JTFECHA.getDate());
+        int filaseleccionada = tblCH.getSelectedRow();
+        //FUNCION OBTENER FECHA
+        try {
+            Class.forName("net.sourceforge.jtds.jdbc.Driver");
+            java.sql.Connection conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://" + IPSUCURSAL + "", "usounds", "madljda");
+            st = conexion.createStatement();
+            st.executeUpdate("use CML");
+            Object itemcajero = "";
+            //Seleccionar datos
 
-                    itemcajero = (tblCH.getValueAt(filaseleccionada, 5));//codigo
+            Object itemcaja = (tblCH.getValueAt(filaseleccionada, 0));//caja
+            String vcaja = itemcaja.toString();
+            Object itemfolio = (tblCH.getValueAt(filaseleccionada, 1));//folio
+            String vfolio = itemfolio.toString();
 
-                    rs = st.executeQuery("select v.codigo,left((select descripcion from codigos where codigo=cg.codigo),15)as descgenero, cg.garantia,cg.dias, v.cantidad,left(sum(cantidad*precioventaneto),6)as precio,\n"
-                            + "(select nombrec from empleados where empleado=v.cajero) as cajero,vp.nombrecliente,vp.telefonocliente,vp.correocliente\n"
-                            + "from ventas v, codigosgarantias cg, ventaspagos vp where v.fecha=vp.fecha and v.folio=vp.folio and v.caja=vp.caja and v.sucursal=vp.sucursal and\n"
-                            + "v.codigo=cg.codigo and v.fecha='" + fechaformateada + "' and v.caja='" + vcaja + "' and v.folio='" + vfolio + "' and v.sucursal='" + SUCURSAL + "' and vp.clavepago<>99\n"
-                            + "group by v.codigo,cg.codigo,cg.garantia,v.cantidad,cg.dias,vp.nombrecliente,vp.telefonocliente,vp.correocliente,v.cajero");
+            itemcajero = (tblCH.getValueAt(filaseleccionada, 5));//codigo
+            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>> FECHA FORMATEADA" + fechaformateada);
+            rs = st.executeQuery("select v.codigo,left((select descripcion from codigos where codigo=cg.codigo),15)as descgenero, cg.garantia,cg.dias, v.cantidad,left(sum(cantidad*precioventaneto),6)as precio,\n"
+                    + "(select nombrec from empleados where empleado=v.cajero) as cajero,vp.nombrecliente,vp.telefonocliente,vp.correocliente,(select genero from codigos where codigo=cg.codigo  )as genero\n"
+                    + "from ventas v, codigosgarantias cg, ventaspagos vp where v.fecha=vp.fecha and v.folio=vp.folio and v.caja=vp.caja and v.sucursal=vp.sucursal and\n"
+                    + "v.codigo=cg.codigo and v.fecha='" + fechaformateada + "' and v.caja='" + vcaja + "' and v.folio='" + vfolio + "' and v.sucursal='" + SUCURSAL + "' and vp.clavepago<>99\n"
+                    + "group by v.codigo,cg.codigo,cg.garantia,v.cantidad,cg.dias,vp.nombrecliente,vp.telefonocliente,vp.correocliente,v.cajero");
 
-                    ////   System.out.println("fechaformateada"+fechaformateada); ES EL BUENO PARA IQUERYS
-                    md = (DefaultTableModel) tblCH.getModel();
-                    md.setRowCount(0);
+            ////   System.out.println("fechaformateada"+fechaformateada); ES EL BUENO PARA IQUERYS
+            md = (DefaultTableModel) tblCH.getModel();
+            md.setRowCount(0);
 
-                    try {
+            try {
 
-                        String Header
-                                = "***************************************\n;"
-                                + "***************GARANTIAS**************\n;"
-                                + "******SUCURSAL: " + NOMBRESUCURSAL + "***********\n;"
-                                + "*********TEL: " + TELEFONOSUCURSAL + "***********\n;"
-                                + "                                        \n;"
-                                + "Fecha:" + dd.format(gg.getTime()) + "      Hora:" + ddd.format(gg.getTime()) + "\n;"
-                                 + "Folio: " + vfolio + "           Caja: "+vcaja+"    \n;"
-                                + "                                         \n;"
-                                + "Pzas " + "Codigo" + "      Garantia " + "Precio" + "\n;"
-                                + "     Descripcion     Dias        " + "\n;"
-                                + "--------------------------------------\n;";
+                String Header
+                        = "**************REIMPRESION***************\n;"
+                        + "***************GARANTIAS**************\n;"
+                        + "******SUCURSAL: " + NOMBRESUCURSAL + "***********\n;"
+                        + "*********TEL: " + TELEFONOSUCURSAL + "***********\n;"
+                        + "                                        \n;"
+                        + "Fecha:" + fechaformateada2.trim() + "      Hora:" + ddd.format(gg.getTime()) + "\n;"
+                        + "Folio: " + vfolio + "           Caja: " + vcaja + "    \n;"
+                        + "                                         \n;"
+                        + "Pzas " + "Codigo" + "      Garantia " + "Precio" + "\n;"
+                        + "     Descripcion     Dias        " + "\n;"
+                        + "--------------------------------------\n;";
 
-                        String a = "";
-                        String CORREORS = "";
-                        String NOMBRECLIERS = "";
-                        String CAJERORS = "";
-                        while (rs.next()) {
+                String a = "";
+                String b = "";
+                String CORREORS = "";
+                String NOMBRECLIERS = "";
+                String CAJERORS = "";
+                while (rs.next()) {
 
-                            a += rs.getString(5) + " " + rs.getString(1) + " " + rs.getString(4) + " $" + rs.getString(6) + "\n;"
-                                    + " " + rs.getString(2) + "\n;";
-                            CORREORS = rs.getString(10);
-                            NOMBRECLIERS = rs.getString(8);
-                            CAJERORS = rs.getString(7);
-
-                        }
-
-                        String h = Header + a;
-
-                        String amt
-                                = "\n;-----------------------------------\n;"
-                                + "--------------------------------------\n;"
-                                + "NOTA;EL CLIENTE ESTA DE ACUERDO EN QUE\n;"
-                                + "LA MERCANCIA SE LE ENTREGO CON SUS\n;"
-                                + "EMPAQUES ORIGINALES, PROTECTORES  \n;"
-                                + "INSTRUCTIVOS Y ACCESORIOS QUE     \n;"
-                                + "CONTIENE DE FABRICA AL HACER SU   \n;"
-                                + "COMPRA, SE ACEPTA QUE LOS EQUIPOS \n;"
-                                + "FUERON PROBADOS EN PRESENCIA DEL  \n;"
-                                + "CLIENTE SU TICKET ES SU GARANTIA  \n;"
-                                + "**********************************\n;"
-                                + "Esta Garantia aplica Solamente    \n;"
-                                + "en productos comprados en Sounds  \n;"
-                                + "Quien garantiza el funcionamiento \n;"
-                                + "del equipo por el periodo señalado\n;"
-                                + "y bajo las condiciones que estipula\n;"
-                                + "el manual o instructivo del equipo\n;"
-                                + "de los accesorios adquiridos      \n;"
-                                + "           CONDICIONES            \n;"
-                                + "1.-En todo caso el cliente debe   \n;"
-                                + "presentar la mercancia con el ticket\n;"
-                                + "de compra y empaques en buen estado \n;"
-                                + "2.-En caso de que el articulo tenga\n;"
-                                + "poliza de proveedor,Casa de musica \n;"
-                                + "solo dara el servicio intermediario\n;"
-                                + "entre cliente y el taller autorizado\n;"
-                                + "3.-En cualquier caso,al cliente se le\n;"
-                                + "dara respuesta tanto del diagnostico\n;"
-                                + "como de la reparacion en un lapso \n;"
-                                + "no mayor a 30 dias                \n;"
-                                + "4.-La garantia no aplica en los   \n;"
-                                + "articulos dañados por mal manejo  \n;"
-                                + "del cliente,negligencia en el uso del \n;"
-                                + "articulo,mala instalacion electrica\n;"
-                                + "contingencias climaticas golpes,caidas\n;"
-                                + "polvo, agua y plagas                \n;"
-                                /*+ "5.-En el caso de este producto        \n;"
-                                 + "Casa de Musica  de Luxe S.A. de C.V.  \n;"
-                                 + "le enviara a su correo electronico    \n;"
-                                 + "un manual de recomendaciones  para el \n;"
-                                 + "manejo de su equipo           \n;"
-                                 + "es importante que lo lea a detalle    \n;"
-                                 + "ya que es causa de anulacion          \n;"
-                                 + "de la garantia, el no seguir con estas\n;"
-                                 + "recomendaciones     \n;"*/
-                                + "ATENDIDO POR:" + CAJERORS.toUpperCase() + "\n;"
-                                + "NOMBRE DE CLIENTE:" + NOMBRECLIERS.toUpperCase() + "\n;"
-                                + "EMAIL:" + CORREORS  + "\n;"
-                                + "FIRMA:______________________________  \n;"
-                                + "Recuerde que puede consultar nuestro  \n;"
-                                + "aviso de privacidad en WWW.SOUNDS.MX  \n;";
-                        //             JOptionPane.showMessageDialog(null,"VARIS"+NOMBRECLIERS+CORREORS);
-                        String zbill = h + amt;/// suma de header y cuerpo
-
-                        FORMATOCELDAS p = new FORMATOCELDAS();
-                        FORMATOCELDAS.printCard(zbill);; ///primer ticket
-                        // FORMATOCELDAS.printCard(zbill);; ///segundo ticket
-                        JOptionPane.showMessageDialog(null, "SE HA REIMPRESO CORRECTAMENTE LA GARANTIA CON NOMBRE DE:  " + NOMBRECLIERS);
-                    } catch (SQLException ex) {
-                        JOptionPane.showMessageDialog(this, "Falla al conectar internet/Base de datos, vuelva a intentarlo o anote el numero de folio y reportelo a la extension #235 con SISTEMAS ");
-                    }
-                } catch (HeadlessException | NumberFormatException | SQLException e) {
-                    JOptionPane.showMessageDialog(rootPane, e.getMessage());
-
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(MENUREIMPRIMIR.class.getName()).log(Level.SEVERE, null, ex);
+                    a += rs.getString(5) + " " + rs.getString(1) + " " + rs.getString(4) + " $" + rs.getString(6) + "\n;"
+                            + " " + rs.getString(2) + "\n;";
+                    CORREORS = rs.getString(10)+"";
+                    NOMBRECLIERS = rs.getString(8)+"";
+                    CAJERORS = rs.getString(7)+"";
+                    b += rs.getString(11).trim() + "";
                 }
+                System.out.println(" >>>"+NOMBRECLIERS+CORREORS+CAJERORS);
+                    String capricho="";
+                        if (b.contains("154")){
+                            System.out.println("lleva bafle");
+                              capricho
+                                    = "2 Meses de Garantia solo por defectos\n;"
+                                    + "de fabrica,15 dias de garantia en los \n;"
+                                    + "accesorios que contiene (tripie sin \n;"
+                                    + "garantia) \n;"
+                                    + "Si requiere asistencia tecnica o\n;"
+                                    + "garantias debe acudir directamente\n;"
+                                    + "a nuestro taller de servicio ubicado \n;"
+                                    + "en Av. Antonio J.Bermudez #1550 entre\n;"
+                                    + "Av.Tomas Fernandez calle ohm,Parque\n;"
+                                    + "industrial Antonio J.Bermudez,horario\n;"
+                                    + "de Lunes a Viernes de 9:00 am a 1:30 pm \n;"
+                                    + "de 3:00 a 5:00 pm,Sabados de 9:00 am \n:"
+                                    + "a 12:30 pm, hacer previa cita al;"
+                                    + "telefono 616-1194, extension 0 \n;";
+                        } else {
+                            System.out.println(" NO LLEVA BAFLE");
+                        }
+                String h = Header + a;
+
+                String amt
+                        = "\n;-----------------------------------\n;"
+                        + "--------------------------------------\n;"
+                        + "NOTA;EL CLIENTE ESTA DE ACUERDO EN QUE\n;"
+                        + "LA MERCANCIA SE LE ENTREGO CON SUS\n;"
+                        + "EMPAQUES ORIGINALES, PROTECTORES  \n;"
+                        + "INSTRUCTIVOS Y ACCESORIOS QUE     \n;"
+                        + "CONTIENE DE FABRICA AL HACER SU   \n;"
+                        + "COMPRA, SE ACEPTA QUE LOS EQUIPOS \n;"
+                        + "FUERON PROBADOS EN PRESENCIA DEL  \n;"
+                        + "CLIENTE SU TICKET ES SU GARANTIA  \n;"
+                        + "**********************************\n;"
+                        + "Esta Garantia aplica Solamente    \n;"
+                        + "en productos comprados en Sounds  \n;"
+                        + "Quien garantiza el funcionamiento \n;"
+                        + "del equipo por el periodo señalado\n;"
+                        + "y bajo las condiciones que estipula\n;"
+                        + "el manual o instructivo del equipo\n;"
+                        + "de los accesorios adquiridos      \n;"
+                        + "           CONDICIONES            \n;"
+                        + "1.-En todo caso el cliente debe   \n;"
+                        + "presentar la mercancia con el ticket\n;"
+                        + "de compra y empaques en buen estado \n;"
+                        + "2.-En caso de que el articulo tenga\n;"
+                        + "poliza de proveedor,Casa de musica \n;"
+                        + "solo dara el servicio intermediario\n;"
+                        + "entre cliente y el taller autorizado\n;"
+                        + "3.-En cualquier caso,al cliente se le\n;"
+                        + "dara respuesta tanto del diagnostico\n;"
+                        + "como de la reparacion en un lapso \n;"
+                        + "no mayor a 30 dias                \n;"
+                        + "4.-La garantia no aplica en los   \n;"
+                        + "articulos dañados por mal manejo  \n;"
+                        + "del cliente,negligencia en el uso del \n;"
+                        + "articulo,mala instalacion electrica\n;"
+                        + "contingencias climaticas golpes,caidas\n;"
+                        + "polvo, agua y plagas                \n;"
+                        /*+ "5.-En el caso de este producto        \n;"
+                         + "Casa de Musica  de Luxe S.A. de C.V.  \n;"
+                         + "le enviara a su correo electronico    \n;"
+                         + "un manual de recomendaciones  para el \n;"
+                         + "manejo de su equipo           \n;"
+                         + "es importante que lo lea a detalle    \n;"
+                         + "ya que es causa de anulacion          \n;"
+                         + "de la garantia, el no seguir con estas\n;"
+                         + "recomendaciones     \n;"*/
+                        + "ATENDIDO POR:" + CAJERORS.toUpperCase() + "\n;"
+                        + "NOMBRE DE CLIENTE:" + NOMBRECLIERS .toUpperCase()+"\n;"
+                        + "EMAIL:" + CORREORS + "\n;"
+                        + "FIRMA:______________________________  \n;"
+                        + "Recuerde que puede consultar nuestro  \n;"
+                        + "aviso de privacidad en WWW.SOUNDS.MX  \n;";
+                //             JOptionPane.showMessageDialog(null,"VARIS"+NOMBRECLIERS+CORREORS);
+                System.out.println("<><><><><><><><>"+NOMBRECLIERS+CORREORS+CAJERORS);
+                String zbill = h + amt+capricho;/// suma de header y cuerpo
+
+                FORMATOCELDAS p = new FORMATOCELDAS();
+                FORMATOCELDAS.printCard(zbill);; ///primer ticket
+                // FORMATOCELDAS.printCard(zbill);; ///segundo ticket
+                JOptionPane.showMessageDialog(null, "SE HA REIMPRESO CORRECTAMENTE LA GARANTIA CON NOMBRE DE:  " + NOMBRECLIERS.trim());
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(this, "Falla al conectar internet/Base de datos, vuelva a intentarlo o anote el numero de folio y reportelo a la extension #235 con SISTEMAS ");
             }
-        } else {
-            JOptionPane.showMessageDialog(this, "No ha seleccionado ninguna fila o la tabla está vacía");
+        } catch (HeadlessException | NumberFormatException | SQLException e) {
+            JOptionPane.showMessageDialog(rootPane, e.getMessage());
 
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(MENUREIMPRIMIR.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
 
-    }//GEN-LAST:event_BTNGENERARActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
