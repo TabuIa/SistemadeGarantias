@@ -311,14 +311,14 @@ public class MENUNUEVAGARANTIA extends javax.swing.JFrame {
 
     private void JTCORREOKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_JTCORREOKeyTyped
   if (JTCORREO.getText().length() == 50) {
-            JOptionPane.showMessageDialog(null, "Solo 50 caracteres", "Alerta", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Solo se admiten 50 caracteres para el correo del cliente", "Alerta", JOptionPane.WARNING_MESSAGE);
             evt.consume();
         }
     }//GEN-LAST:event_JTCORREOKeyTyped
 
     private void JTNOMBREKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_JTNOMBREKeyTyped
   if (JTNOMBRE.getText().length() == 35) {
-            JOptionPane.showMessageDialog(null, "Solo 35 caracteres", "Alerta", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Solo se admiten 35 caracteres para el nombre del cliente ", "Alerta", JOptionPane.WARNING_MESSAGE);
             evt.consume();
         }      
     }//GEN-LAST:event_JTNOMBREKeyTyped
@@ -414,7 +414,7 @@ public class MENUNUEVAGARANTIA extends javax.swing.JFrame {
 
     private void JCELKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_JCELKeyTyped
        if (JCEL.getText().length() == 30) {
-            JOptionPane.showMessageDialog(null, "Solo 30 caracteres", "Alerta", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Solo se admiten 30 caracteres para el campo de celular verifique que no tengas espacios", "Alerta", JOptionPane.WARNING_MESSAGE);
             evt.consume();
         }
     }//GEN-LAST:event_JCELKeyTyped
