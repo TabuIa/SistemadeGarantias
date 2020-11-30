@@ -479,11 +479,11 @@ public class MENUNUEVAGARANTIA extends javax.swing.JFrame {
                         a += rs.getString(5) + " " + rs.getString(1) + " " + rs.getString(4) + " $" + rs.getString(6) + "\n;"
                                 + " " + rs.getString(2) + "\n;";
                              b += rs.getString(7).trim()+"";
-                        System.out.println( rs.getString(7) + " "+ rs.getString(1) + " "  + rs.getString(4) +" $" + rs.getString(6));
+                   ///     System.out.println( rs.getString(7) + " "+ rs.getString(1) + " "  + rs.getString(4) +" $" + rs.getString(6));
                     }
                     String capricho="";
                         if (b.contains("154")){
-                            System.out.println("lleva bafle");
+                          //  System.out.println("lleva bafle");
                              capricho
                                     = "2 Meses de Garantia solo por defectos\n;"
                                     + "de fabrica,15 dias de garantia en los \n;"
@@ -501,9 +501,9 @@ public class MENUNUEVAGARANTIA extends javax.swing.JFrame {
                                     + "telefono 616-1194, extension 0 \n;"
                                    ;
                         } else {
-                            System.out.println(" NO LLEVA BAFLE");
+                         ////   System.out.println(" NO LLEVA BAFLE");
                     }
-                    System.out.println(capricho + "" + b + "<><><><>");
+                  //  System.out.println(capricho + "" + b + "<><><><>");
 
                     String h = Header + a;
                     String amt
@@ -641,17 +641,17 @@ public class MENUNUEVAGARANTIA extends javax.swing.JFrame {
                         String b = "";
                 
                         while (rs.next()) {
-                            System.out.println(rs.getString(6)+"-"+rs.getString(1)+rs.getString(6)+""+rs.getString(7)+"");
+                          //  System.out.println(rs.getString(6)+"-"+rs.getString(1)+rs.getString(6)+""+rs.getString(7)+"");
                             a += rs.getString(5) + " " + rs.getString(1) + " " + rs.getString(4) + " $" + rs.getString(6) + "\n;"
                                     + " " + rs.getString(2) + "\n;";
                             b += rs.getString(7).trim()+"";
 
                        
-                            System.out.println( rs.getString(7) + " "+ rs.getString(1) + " "  + rs.getString(4) +" $" + rs.getString(6));
+                          ///  System.out.println( rs.getString(7) + " "+ rs.getString(1) + " "  + rs.getString(4) +" $" + rs.getString(6));
                         }
                          String capricho="";
                         if (b.contains("154")){
-                            System.out.println("lleva bafle");
+                          ///  System.out.println("lleva bafle");
                               capricho
                                     = "2 Meses de Garantia solo por defectos\n;"
                                     + "de fabrica,15 dias de garantia en los \n;"
@@ -668,9 +668,9 @@ public class MENUNUEVAGARANTIA extends javax.swing.JFrame {
                                     + "a 12:30 pm, hacer previa cita al;"
                                     + "telefono 616-1194, extension 0 \n;";
                         } else {
-                            System.out.println(" NO LLEVA BAFLE");
+                        ///    System.out.println(" NO LLEVA BAFLE");
                         }
-                             System.out.println(capricho+""+b+"<><><><>");
+                           ///  System.out.println(capricho+""+b+"<><><><>");
                             
                         String h = Header + a;
                         String amt

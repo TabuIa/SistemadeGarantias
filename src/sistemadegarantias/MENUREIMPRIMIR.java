@@ -388,7 +388,7 @@ public class MENUREIMPRIMIR extends javax.swing.JFrame {
                       
                         String capricho = "";
                         if (b.contains("154")) {
-                            System.out.println("lleva bafle");
+                          //  System.out.println("lleva bafle");
                             capricho
                                     = "2 Meses de Garantia solo por defectos\n;"
                                     + "de fabrica,15 dias de garantia en los \n;"
@@ -405,7 +405,7 @@ public class MENUREIMPRIMIR extends javax.swing.JFrame {
                                     + "a 12:30 pm, hacer previa cita al;"
                                     + "telefono 616-1194, extension 0 \n;";
                         } else {
-                            System.out.println(" NO LLEVA BAFLE");
+                        ///    System.out.println(" NO LLEVA BAFLE");
                         }
                         String h = Header + a;
                         String amt
@@ -502,7 +502,7 @@ public class MENUREIMPRIMIR extends javax.swing.JFrame {
             String vfolio = itemfolio.toString();
 
             itemcajero = (tblCH.getValueAt(filaseleccionada, 5));//codigo
-            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>> FECHA FORMATEADA" + fechaformateada);
+          ///  System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>> FECHA FORMATEADA" + fechaformateada);
             rs = st.executeQuery("select v.codigo,left((select descripcion from codigos where codigo=cg.codigo),15)as descgenero, cg.garantia,cg.dias, v.cantidad,left(sum(cantidad*precioventaneto),6)as precio,\n"
                     + "(select nombrec from empleados where empleado=v.cajero) as cajero,vp.nombrecliente,vp.telefonocliente,vp.correocliente,(select genero from codigos where codigo=cg.codigo  )as genero\n"
                     + "from ventas v, codigosgarantias cg, ventaspagos vp where v.fecha=vp.fecha and v.folio=vp.folio and v.caja=vp.caja and v.sucursal=vp.sucursal and\n"
@@ -522,7 +522,7 @@ public class MENUREIMPRIMIR extends javax.swing.JFrame {
                         + "*********TEL: " + TELEFONOSUCURSAL + "***********\n;"
                         + "                                        \n;"
                         + "Fecha:" + fechaformateada2.trim() + "      Hora:" + ddd.format(gg.getTime()) + "\n;"
-                        + "Folio: " + vfolio + "              Caja: " + vcaja + "    \n;"
+                        + "Folio: " + vfolio + "             Caja: " + vcaja + "    \n;"
                         + "                                         \n;"
                         + "Pzas " + "Codigo" + "      Garantia " + "Precio" + "\n;"
                         + "     Descripcion     Dias        " + "\n;"
@@ -542,10 +542,10 @@ public class MENUREIMPRIMIR extends javax.swing.JFrame {
                     CAJERORS = rs.getString(7)+"";
                     b += rs.getString(11).trim() + "";
                 }
-                System.out.println(" >>>"+NOMBRECLIERS+CORREORS+CAJERORS);
+             //   System.out.println(" >>>"+NOMBRECLIERS+CORREORS+CAJERORS);
                     String capricho="";
                         if (b.contains("154")){
-                            System.out.println("lleva bafle");
+                          /// System.out.println("lleva bafle");
                               capricho
                                     = "2 Meses de Garantia solo por defectos\n;"
                                     + "de fabrica,15 dias de garantia en los \n;"
@@ -562,7 +562,7 @@ public class MENUREIMPRIMIR extends javax.swing.JFrame {
                                     + "a 12:30 pm, hacer previa cita al;"
                                     + "telefono 616-1194, extension 0 \n;";
                         } else {
-                            System.out.println(" NO LLEVA BAFLE");
+                          ///  System.out.println(" NO LLEVA BAFLE");
                         }
                 String h = Header + a;
 
@@ -619,7 +619,7 @@ public class MENUREIMPRIMIR extends javax.swing.JFrame {
                         + "Recuerde que puede consultar nuestro  \n;"
                         + "aviso de privacidad en WWW.SOUNDS.MX  \n;";
                 //             JOptionPane.showMessageDialog(null,"VARIS"+NOMBRECLIERS+CORREORS);
-                System.out.println("<><><><><><><><>"+NOMBRECLIERS+CORREORS+CAJERORS);
+              ///  System.out.println("<><><><><><><><>"+NOMBRECLIERS+CORREORS+CAJERORS);
                 String zbill = h + amt+capricho;/// suma de header y cuerpo
 
                 FORMATOCELDAS p = new FORMATOCELDAS();
