@@ -28,7 +28,7 @@ import static sistemadegarantias.Configuracionserver.NOMBRESUCURSAL;
 import static sistemadegarantias.Configuracionserver.SUCURSAL;
 import static sistemadegarantias.Configuracionserver.TELEFONOSUCURSAL;
  
-public class MENUNUEVAGARANTIA extends javax.swing.JFrame {
+public class NUEVAGARANTIA extends javax.swing.JFrame {
         Statement st;
         ResultSet rs;
         DefaultTableModel md;
@@ -38,7 +38,7 @@ public class MENUNUEVAGARANTIA extends javax.swing.JFrame {
         GregorianCalendar gg = new GregorianCalendar();
         SimpleDateFormat dd = new SimpleDateFormat("dd/MM/YYYY");
         SimpleDateFormat ddd = new SimpleDateFormat("HH:mm");
-    public MENUNUEVAGARANTIA() {
+    public NUEVAGARANTIA() {
       
         initComponents();
          tblCH.getTableHeader().setReorderingAllowed(false);
@@ -174,7 +174,7 @@ public class MENUNUEVAGARANTIA extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("CORREO ELECTRONICO:");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 310, 170, 30));
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 310, 170, 30));
 
         BTNGENERAR.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         BTNGENERAR.setForeground(new java.awt.Color(0, 153, 0));
@@ -184,7 +184,7 @@ public class MENUNUEVAGARANTIA extends javax.swing.JFrame {
                 BTNGENERARActionPerformed(evt);
             }
         });
-        jPanel1.add(BTNGENERAR, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 320, 170, 70));
+        jPanel1.add(BTNGENERAR, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 290, 170, 70));
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
@@ -206,6 +206,7 @@ public class MENUNUEVAGARANTIA extends javax.swing.JFrame {
         });
         jPanel1.add(JTNOMBRE, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 270, 300, 30));
 
+        tblCH.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         tblCH.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
@@ -217,6 +218,7 @@ public class MENUNUEVAGARANTIA extends javax.swing.JFrame {
                 "ERROR", "ERROR", "ERROR", "ERROR", "ERROR"
             }
         ));
+        tblCH.setRowHeight(50);
         jScrollPane1.setViewportView(tblCH);
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 810, 170));
@@ -224,7 +226,7 @@ public class MENUNUEVAGARANTIA extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("NOMBRE DE CLIENTE:");
-        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 270, 140, 30));
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 270, 140, 30));
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 0, 0));
@@ -263,7 +265,7 @@ public class MENUNUEVAGARANTIA extends javax.swing.JFrame {
                 CBCAJAActionPerformed(evt);
             }
         });
-        jPanel1.add(CBCAJA, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 20, 100, 40));
+        jPanel1.add(CBCAJA, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 20, 110, 40));
 
         jLabel12.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(255, 255, 255));
@@ -321,6 +323,12 @@ public class MENUNUEVAGARANTIA extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Solo se admiten 35 caracteres para el nombre del cliente ", "Alerta", JOptionPane.WARNING_MESSAGE);
             evt.consume();
         }      
+  
+   
+  
+  
+  
+  
     }//GEN-LAST:event_JTNOMBREKeyTyped
 
     private void BTNGENERARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNGENERARActionPerformed
@@ -367,7 +375,8 @@ public class MENUNUEVAGARANTIA extends javax.swing.JFrame {
             try {
 
                 while (rs.next()) {
-                    Object[] fila = {rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getDouble(4), rs.getString(5), rs.getString(6)};
+                    Object[] fila = {rs.getInt(1), rs.getInt(2), rs.getString(3).trim(), rs.getDouble(4)
+                            , rs.getString(5).trim(), rs.getString(6).trim()};
                     md.addRow(fila);
                 }
                 int CONT = md.getRowCount();
@@ -382,7 +391,7 @@ public class MENUNUEVAGARANTIA extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, e.getMessage());
 
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(MENUNUEVAGARANTIA.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(NUEVAGARANTIA.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }//GEN-LAST:event_BTNBUSCAR
@@ -417,6 +426,9 @@ public class MENUNUEVAGARANTIA extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Solo se admiten 30 caracteres para el campo de celular verifique que no tengas espacios", "Alerta", JOptionPane.WARNING_MESSAGE);
             evt.consume();
         }
+            char car = evt.getKeyChar();
+        if((car<'0' || car>'9') ) evt.consume();
+        
     }//GEN-LAST:event_JCELKeyTyped
 
     public void imprimegarantiaporliquidacion() {
@@ -476,8 +488,8 @@ public class MENUNUEVAGARANTIA extends javax.swing.JFrame {
                     String b = "";
                     while (rs.next()) {
                         /// a += rs.getString(1) + "" + rs.getString(4) + "" + rs.getInt(5) +" " + rs.getString(3)+ "\n;";
-                        a += rs.getString(5) + " " + rs.getString(1) + " " + rs.getString(4) + " $" + rs.getString(6) + "\n;"
-                                + " " + rs.getString(2) + "\n;";
+                        a += rs.getString(5).trim() + " " + rs.getString(1).trim() + " " + rs.getString(4).trim() + " $" + rs.getString(6).trim() + "\n;"
+                                + " " + rs.getString(2).trim() + "\n;";
                              b += rs.getString(7).trim()+"";
                    ///     System.out.println( rs.getString(7) + " "+ rs.getString(1) + " "  + rs.getString(4) +" $" + rs.getString(6));
                     }
@@ -584,8 +596,9 @@ public class MENUNUEVAGARANTIA extends javax.swing.JFrame {
                         } catch (HeadlessException | SQLException ex) {
                             JOptionPane.showMessageDialog(rootPane, "Error en la base de datos,guarde el folio y en caso de ser necesario reportar a sistemas ext:235");
                         } catch (ClassNotFoundException ex) {
-                            Logger.getLogger(MENUNUEVAGARANTIA.class.getName()).log(Level.SEVERE, null, ex);
+                            Logger.getLogger(NUEVAGARANTIA.class.getName()).log(Level.SEVERE, null, ex);
                         }
+                        ////////////*****         
                         ////////////*****         
                     } catch (SQLException ex) {
                         JOptionPane.showMessageDialog(rootPane, ex.getMessage());
@@ -595,7 +608,7 @@ public class MENUNUEVAGARANTIA extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(rootPane, e.getMessage());
                     JOptionPane.showMessageDialog(null, "Error revise su conexion de base de datos");
                 } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(MENUNUEVAGARANTIA.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(NUEVAGARANTIA.class.getName()).log(Level.SEVERE, null, ex);
                 }
            
     }
@@ -642,8 +655,8 @@ public class MENUNUEVAGARANTIA extends javax.swing.JFrame {
                 
                         while (rs.next()) {
                           //  System.out.println(rs.getString(6)+"-"+rs.getString(1)+rs.getString(6)+""+rs.getString(7)+"");
-                            a += rs.getString(5) + " " + rs.getString(1) + " " + rs.getString(4) + " $" + rs.getString(6) + "\n;"
-                                    + " " + rs.getString(2) + "\n;";
+                            a += rs.getString(5).trim() + " " + rs.getString(1).trim() + " " + rs.getString(4).trim() + " $" + rs.getString(6).trim() + "\n;"
+                                    + " " + rs.getString(2).trim() + "\n;";
                             b += rs.getString(7).trim()+"";
 
                        
@@ -750,8 +763,9 @@ public class MENUNUEVAGARANTIA extends javax.swing.JFrame {
                         } catch (HeadlessException | SQLException ex) {
                             JOptionPane.showMessageDialog(rootPane, "Error en la base de datos,guarde el folio y en caso de ser necesario reportar a sistemas ext:235");
                         } catch (ClassNotFoundException ex) {
-                            Logger.getLogger(MENUNUEVAGARANTIA.class.getName()).log(Level.SEVERE, null, ex);
+                            Logger.getLogger(NUEVAGARANTIA.class.getName()).log(Level.SEVERE, null, ex);
                         }
+                        ////////////*****         
                         ////////////*****         
                     } catch (SQLException ex) {
                         JOptionPane.showMessageDialog(rootPane, ex.getMessage());
@@ -762,7 +776,7 @@ public class MENUNUEVAGARANTIA extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(rootPane, e.getMessage());
                     JOptionPane.showMessageDialog(null, "Error revise su conexion de base de datos");
                 } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(MENUNUEVAGARANTIA.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(NUEVAGARANTIA.class.getName()).log(Level.SEVERE, null, ex);
                 }
             
     }
@@ -788,20 +802,21 @@ public class MENUNUEVAGARANTIA extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MENUNUEVAGARANTIA.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(NUEVAGARANTIA.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MENUNUEVAGARANTIA.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(NUEVAGARANTIA.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MENUNUEVAGARANTIA.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(NUEVAGARANTIA.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MENUNUEVAGARANTIA.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(NUEVAGARANTIA.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MENUNUEVAGARANTIA().setVisible(true);
+                new NUEVAGARANTIA().setVisible(true);
             }
         });
     }

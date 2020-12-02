@@ -17,7 +17,7 @@ public class MENU extends javax.swing.JFrame {
         initComponents();
        Leer_fichero.leerconexion();
 
-        this.setExtendedState(MAXIMIZED_BOTH);
+       // this.setExtendedState(MAXIMIZED_BOTH);
         setIconImage(new ImageIcon(getClass().getResource("/RECURSOS/logo.png")).getImage());//icono  superior baraa
       /*
         ImageIcon imgIcon = new ImageIcon(getClass().getResource("/RECURSOS/TP3.jpg"));
@@ -33,8 +33,8 @@ public class MENU extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -56,15 +56,15 @@ public class MENU extends javax.swing.JFrame {
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel3.setFont(new java.awt.Font("Castellar", 1, 36)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(51, 204, 255));
+        jLabel3.setText("HISTORIAL");
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 50, 250, 60));
+
         jLabel1.setFont(new java.awt.Font("Castellar", 1, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(51, 204, 255));
         jLabel1.setText("RE IMPRESION");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 250, 320, 60));
-
-        jLabel3.setFont(new java.awt.Font("Castellar", 1, 36)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(51, 204, 255));
-        jLabel3.setText("HISTORIAL");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 50, 250, 60));
 
         jLabel4.setFont(new java.awt.Font("Castellar", 1, 36)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(51, 204, 255));
@@ -87,7 +87,7 @@ public class MENU extends javax.swing.JFrame {
                 jButton2ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 50, 250, 60));
+        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 50, 250, 60));
 
         jButton3.setForeground(new java.awt.Color(51, 51, 51));
         jButton3.setContentAreaFilled(false);
@@ -162,7 +162,7 @@ public class MENU extends javax.swing.JFrame {
     }//GEN-LAST:event_REIMPRIMIRActionPerformed
 
     private void NUEVAGARANTIAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NUEVAGARANTIAActionPerformed
-        MENUNUEVAGARANTIA MG = new MENUNUEVAGARANTIA();
+       NUEVAGARANTIA MG = new NUEVAGARANTIA();
         MG.setVisible(true);
         MG.setLocation(220, 50);
         MG.setSize(865, 400);
@@ -170,30 +170,26 @@ public class MENU extends javax.swing.JFrame {
     }//GEN-LAST:event_NUEVAGARANTIAActionPerformed
 
     private void JBHISTORIALCOMPRAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBHISTORIALCOMPRAActionPerformed
-        HISTORIALCOMPRAS HC= new HISTORIALCOMPRAS();
+        HISTORIAL HC= new HISTORIAL();
         HC.setVisible(true);
         dispose();
     }//GEN-LAST:event_JBHISTORIALCOMPRAActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        MENUNUEVAGARANTIA MG = new MENUNUEVAGARANTIA();
+       NUEVAGARANTIA MG = new NUEVAGARANTIA();
         MG.setVisible(true);
-        MG.setLocation(220, 50);
-        MG.setSize(865, 400);
-        dispose();     
+        dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-           HISTORIALCOMPRAS HC= new HISTORIALCOMPRAS();
+        HISTORIAL HC = new HISTORIAL();
         HC.setVisible(true);
-        dispose(); 
+        dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         MENUREIMPRIMIR MR = new MENUREIMPRIMIR();
         MR.setVisible(true);
-        MR.setLocation(220, 50);
-        MR.setSize(865, 400);
         dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -227,13 +223,17 @@ public class MENU extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(MENU.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
 
-      
-        MENU M = new MENU();
-        M.setVisible(true);
-        M.setLocation(0, 0);
-        M.setSize(1200, 780);
-
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new MENU().setVisible(true);
+                
+                
+                
+            }
+        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -37,7 +37,7 @@ import static sistemadegarantias.Configuracionserver.TELEFONOSUCURSAL;
  *
  * @author AGONZALEZ
  */
-public class HISTORIALCOMPRAS extends javax.swing.JFrame {
+public class HISTORIAL extends javax.swing.JFrame {
 
    
     /**
@@ -57,7 +57,7 @@ public class HISTORIALCOMPRAS extends javax.swing.JFrame {
         trsfiltro.setRowFilter(RowFilter.regexFilter(JBUSCADOR.getText(), 1,2,3));
     }*/
 
-    public HISTORIALCOMPRAS() {
+    public HISTORIAL() {
         //  JRCEL.setSelected(true);
      
         initComponents();
@@ -233,6 +233,7 @@ public class HISTORIALCOMPRAS extends javax.swing.JFrame {
         jPanel1.add(BTNVERDETALLE, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 80, 170, 50));
 
         tblCH2.setAutoCreateRowSorter(true);
+        tblCH2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         tblCH2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -244,6 +245,7 @@ public class HISTORIALCOMPRAS extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblCH2.setRowHeight(50);
         tblCH2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblCH2MouseClicked(evt);
@@ -345,8 +347,9 @@ public class HISTORIALCOMPRAS extends javax.swing.JFrame {
         } catch (HeadlessException | NumberFormatException | SQLException e) {
             JOptionPane.showMessageDialog(rootPane, e.getMessage());
              } catch (ClassNotFoundException ex) {
-            Logger.getLogger(HISTORIALCOMPRAS.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(HISTORIAL.class.getName()).log(Level.SEVERE, null, ex);
         }   
+             //***   
              //***
           
         } else if (JRNOMBRE.isSelected()) {
@@ -381,9 +384,10 @@ public class HISTORIALCOMPRAS extends javax.swing.JFrame {
         } catch (HeadlessException | NumberFormatException | SQLException e) {
             JOptionPane.showMessageDialog(rootPane, e.getMessage());
              } catch (ClassNotFoundException ex) {
-            Logger.getLogger(HISTORIALCOMPRAS.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(HISTORIAL.class.getName()).log(Level.SEVERE, null, ex);
             
              }
+            //************33333333333333333333333333333333333333333333333333333333333333333333333333
             //************33333333333333333333333333333333333333333333333333333333333333333333333333
         }  else if (JREMAIL.isSelected()) {
                try {   
@@ -427,7 +431,7 @@ public class HISTORIALCOMPRAS extends javax.swing.JFrame {
         } catch (HeadlessException | NumberFormatException | SQLException e) {
             JOptionPane.showMessageDialog(rootPane, e.getMessage());
              } catch (ClassNotFoundException ex) {
-            Logger.getLogger(HISTORIALCOMPRAS.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(HISTORIAL.class.getName()).log(Level.SEVERE, null, ex);
         }   
            
                 
@@ -478,8 +482,9 @@ public class HISTORIALCOMPRAS extends javax.swing.JFrame {
         } catch (HeadlessException | NumberFormatException | SQLException e) {
             JOptionPane.showMessageDialog(rootPane, e.getMessage());
              } catch (ClassNotFoundException ex) {
-            Logger.getLogger(HISTORIALCOMPRAS.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(HISTORIAL.class.getName()).log(Level.SEVERE, null, ex);
         }   
+             //***   
              //***
           
         } else if (JRNOMBRE.isSelected()) {
@@ -514,9 +519,10 @@ public class HISTORIALCOMPRAS extends javax.swing.JFrame {
         } catch (HeadlessException | NumberFormatException | SQLException e) {
             JOptionPane.showMessageDialog(rootPane, e.getMessage());
              } catch (ClassNotFoundException ex) {
-            Logger.getLogger(HISTORIALCOMPRAS.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(HISTORIAL.class.getName()).log(Level.SEVERE, null, ex);
             
              }
+            //************33333333333333333333333333333333333333333333333333333333333333333333333333
             //************33333333333333333333333333333333333333333333333333333333333333333333333333
         }  else if (JREMAIL.isSelected()) {
                try {   
@@ -560,7 +566,7 @@ public class HISTORIALCOMPRAS extends javax.swing.JFrame {
         } catch (HeadlessException | NumberFormatException | SQLException e) {
             JOptionPane.showMessageDialog(rootPane, e.getMessage());
              } catch (ClassNotFoundException ex) {
-            Logger.getLogger(HISTORIALCOMPRAS.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(HISTORIAL.class.getName()).log(Level.SEVERE, null, ex);
         }   
            
                 
@@ -605,8 +611,7 @@ public class HISTORIALCOMPRAS extends javax.swing.JFrame {
             String SUC = obj6.toString();
 
             DETALLEVENTA DV = new DETALLEVENTA();
-            DV.setLocation(100, 10);
-            DV.setSize(710, 500);
+         
             DV.setVisible(true);
             DV.JTDVFECHA.setText(FECHA);
             DV.JTDVFOLIO.setText(FOLIO);
@@ -763,7 +768,7 @@ public class HISTORIALCOMPRAS extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(rootPane, e.getMessage());
                 JOptionPane.showMessageDialog(null, "Error revise su conexion de base de datos");
             } catch (ClassNotFoundException ex) {
-                Logger.getLogger(MENUNUEVAGARANTIA.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(HISTORIAL.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
             JOptionPane.showMessageDialog(this, "No ha seleccionado ninguna fila o la tabla está vacía");
@@ -788,8 +793,7 @@ public class HISTORIALCOMPRAS extends javax.swing.JFrame {
                 String SUC = obj6.toString();
 
                 DETALLEVENTA DV = new DETALLEVENTA();
-                DV.setLocation(100, 10);
-                DV.setSize(710, 500);
+              
                 DV.setVisible(true);
                 DV.JTDVFECHA.setText(FECHA);
                 DV.JTDVFOLIO.setText(FOLIO);
@@ -827,21 +831,23 @@ public class HISTORIALCOMPRAS extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(HISTORIALCOMPRAS.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(HISTORIAL.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(HISTORIALCOMPRAS.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(HISTORIAL.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(HISTORIALCOMPRAS.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(HISTORIAL.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(HISTORIALCOMPRAS.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(HISTORIAL.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new HISTORIALCOMPRAS().setVisible(true);
+                new HISTORIAL().setVisible(true);
                 
                 
                 

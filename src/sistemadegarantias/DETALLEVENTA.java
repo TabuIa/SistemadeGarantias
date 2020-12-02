@@ -112,6 +112,7 @@ public class DETALLEVENTA extends javax.swing.JFrame {
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 10, 370, 60));
 
         JTableDV.setAutoCreateRowSorter(true);
+        JTableDV.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         JTableDV.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
@@ -123,6 +124,7 @@ public class DETALLEVENTA extends javax.swing.JFrame {
                 "CODIGO", "DESCRIPCION", "GARANTIA", "CANTIDAD", "PRECIO"
             }
         ));
+        JTableDV.setRowHeight(50);
         jScrollPane1.setViewportView(JTableDV);
         if (JTableDV.getColumnModel().getColumnCount() > 0) {
             JTableDV.getColumnModel().getColumn(0).setHeaderValue("CODIGO");
@@ -148,7 +150,7 @@ public class DETALLEVENTA extends javax.swing.JFrame {
 
         JTDVSUC.setIcon(new javax.swing.ImageIcon(getClass().getResource("/RECURSOS/TP3.jpg"))); // NOI18N
         JTDVSUC.setText("jLabel2");
-        getContentPane().add(JTDVSUC, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 810, 540));
+        getContentPane().add(JTDVSUC, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 770, 400));
 
         pack();
         setLocationRelativeTo(null);
