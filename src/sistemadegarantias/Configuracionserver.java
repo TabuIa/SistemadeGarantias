@@ -18,14 +18,13 @@ import static sistemadegarantias.Configuracionserver.TELEFONOSUCURSAL;
 import static sistemadegarantias.Configuracionserver.IMPRESORA;
 
 
-
 public class Configuracionserver {
- 
- public static String IPSUCURSAL;
- public static String SUCURSAL;
- public static String NOMBRESUCURSAL;
- public static String TELEFONOSUCURSAL;
-public static String IMPRESORA;
+
+    public static String IPSUCURSAL;
+    public static String SUCURSAL;
+    public static String NOMBRESUCURSAL;
+    public static String TELEFONOSUCURSAL;
+    public static String IMPRESORA;
 
 }
 
@@ -44,7 +43,9 @@ class Leer_fichero {
                 FileReader entrada = new FileReader(archivo);
                 BufferedReader br = new BufferedReader(entrada);
                 ArrayList arreglo = new ArrayList();
-                while ((texto = br.readLine()) != null) {
+                while ((
+                        texto = br.readLine()
+                        ) != null) {
                     
                     arreglo.add(texto);
                     
