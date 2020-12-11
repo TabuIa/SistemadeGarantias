@@ -369,14 +369,16 @@ public class NUEVAGARANTIA extends javax.swing.JFrame {
             //  JOptionPane.showMessageDialog(rootPane, "PRUEBA FECHA"+pruebafecha);
             //Seleccionar datos      rs = st.executeQuery("select caja,folio,codigo,precioventaneto ,(select descripcion from codigos where codigo=ventas.codigo)as descrip,(select nombrec from empleados where empleado=ventas.cajero)as cajero from ventas where fecha='"+pruebafecha+"' and sucursal='"+SUCURSAL+"' and folio='" + folio + "' and caja='" + caja + "'; ");
 
-            rs = st.executeQuery("select caja,folio,codigo,precioventaneto ,(select descripcion from codigos where codigo=ventas.codigo)as descrip,(select nombrec from empleados where empleado=ventas.cajero)as cajero from ventas where fecha='" + pruebafecha + "' and sucursal='" + SUCURSAL + "' and folio='" + folio + "' and caja='" + caja + "'; ");
+            rs = st.executeQuery("select caja,folio,codigo,precioventaneto ,(select descripcion from codigos where codigo=ventas.codigo)as descrip,(select nombrec from empleados where empleado=ventas.cajero)as cajero from ventas where fecha='"+pruebafecha+"' and sucursal='" + SUCURSAL + "' and folio='" + folio + "' and caja='" + caja + "'; ");
             md = (DefaultTableModel) tblCH.getModel();
             md.setRowCount(0);
             try {
 
                 while (rs.next()) {
-                    Object[] fila = {rs.getInt(1), rs.getInt(2), rs.getString(3).trim(), rs.getDouble(4)
-                            , rs.getString(5).trim(), rs.getString(6).trim()};
+                  //  System.out.println( rs.getInt(1)+ rs.getInt(2)+ rs.getString(3).trim()+ rs.getDouble(4)
+                   //         + rs.getString(5).trim()+ rs.getString(6).trim());
+                    Object[] fila = {rs.getInt(1), rs.getInt(2), rs.getString(3) , rs.getDouble(4)
+                            , rs.getString(5) , rs.getString(6)};
                     md.addRow(fila);
                 }
                 int CONT = md.getRowCount();
@@ -450,21 +452,21 @@ public class NUEVAGARANTIA extends javax.swing.JFrame {
             String vcaja = "";
             String vfolio = "";
             String pruebafecha = LBLFECHA.getText();
-               Object itemcaja = (tblCH.getValueAt(filaseleccionada, 0));//caja
-                vcaja = itemcaja.toString();
-                Object itemfolio = (tblCH.getValueAt(filaseleccionada, 1));//caja
-                vfolio = itemfolio.toString();
-                itemcajero=(tblCH.getValueAt(filaseleccionada, 5));//codigo
-                
-                rs = st.executeQuery("select apa.codigo,(select descripcion from codigos where codigo=apa.codigo)as descgenero,\n"
-                        + "                  cg.garantia,cg.dias,apa.cantidad,apa.precioventa,cg.genero\n"
-                        + " from ventas v, apartadosdetalle apa,codigosgarantias cg\n"
-                        + " where  SubString(v.Codigo, 1,10)=apa.apartado and apa.codigo=cg.codigo and v.fecha ='" + pruebafecha + "' "
-                        + "and v.codigo not in (select codigo from codigos) and v.ClaveVenta='LB'\n"
-                        + "                  and V.caja='" + vcaja + "' and V.folio='" + vfolio + "' and V.sucursal='" + SUCURSAL + "'");
+            Object itemcaja = (tblCH.getValueAt(filaseleccionada, 0));//caja
+            vcaja = itemcaja.toString();
+            Object itemfolio = (tblCH.getValueAt(filaseleccionada, 1));//caja
+            vfolio = itemfolio.toString();
+            itemcajero = (tblCH.getValueAt(filaseleccionada, 5));//codigo
 
-                /*          rs = st.executeQuery("select v.codigo,(select descripcion from codigos where codigo=cg.codigo)as descgenero, cg.garantia,cg.dias, v.cantidad,left(sum(cantidad*precioventaneto),6)as precio\n" +
-                 " from ventas v, codigosgarantias cg where v.codigo=cg.codigo and v.fecha='"+pruebafecha+"' and v.caja='"+vcaja+"' and v.folio='"+vfolio+"' and v.sucursal='"+SUCURSAL+"'\n" +
+            rs = st.executeQuery("select apa.codigo,(select descripcion from codigos where codigo=apa.codigo)as descgenero,\n"
+                    + "                  cg.garantia,cg.dias,apa.cantidad,apa.precioventa,cg.genero\n"
+                    + " from ventas v, apartadosdetalle apa,codigosgarantias cg\n"
+                    + " where  SubString(v.Codigo, 1,10)=apa.apartado and apa.codigo=cg.codigo and v.fecha ='" + pruebafecha + "' "
+                    + "and v.codigo not in (select codigo from codigos) and v.ClaveVenta in ('LB','LI','LN')\n"
+                    + "                  and V.caja='" + vcaja + "' and V.folio='" + vfolio + "' and V.sucursal='" + SUCURSAL + "'");
+
+            /*          rs = st.executeQuery("select v.codigo,(select descripcion from codigos where codigo=cg.codigo)as descgenero, cg.garantia,cg.dias, v.cantidad,left(sum(cantidad*precioventaneto),6)as precio\n" +
+             " from ventas v, codigosgarantias cg where v.codigo=cg.codigo and v.fecha='"+pruebafecha+"' and v.caja='"+vcaja+"' and v.folio='"+vfolio+"' and v.sucursal='"+SUCURSAL+"'\n" +
                  " group by v.codigo,cg.codigo,cg.garantia,v.cantidad,cg.dias");
                  */
                 md = (DefaultTableModel) tblCH.getModel();
