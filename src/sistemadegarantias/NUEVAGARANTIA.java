@@ -36,7 +36,7 @@ public class NUEVAGARANTIA extends javax.swing.JFrame {
         
   
         GregorianCalendar gg = new GregorianCalendar();
-        SimpleDateFormat dd = new SimpleDateFormat("dd/MM/YYYY");
+        SimpleDateFormat dd = new SimpleDateFormat("dd/MM/yyyy");
         SimpleDateFormat ddd = new SimpleDateFormat("HH:mm");
     public NUEVAGARANTIA() {
       

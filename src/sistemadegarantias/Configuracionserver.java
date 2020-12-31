@@ -17,7 +17,6 @@ import static sistemadegarantias.Configuracionserver.NOMBRESUCURSAL;
 import static sistemadegarantias.Configuracionserver.TELEFONOSUCURSAL;
 import static sistemadegarantias.Configuracionserver.IMPRESORA;
 
-
 public class Configuracionserver {
 
     public static String IPSUCURSAL;
@@ -43,12 +42,10 @@ class Leer_fichero {
                 FileReader entrada = new FileReader(archivo);
                 BufferedReader br = new BufferedReader(entrada);
                 ArrayList arreglo = new ArrayList();
-                while ((
-                        texto = br.readLine()
-                        ) != null) {
-                    
+                while ((texto = br.readLine()) != null) {
+
                     arreglo.add(texto);
-                    
+
                 }
                 entrada.close();
 
@@ -57,10 +54,8 @@ class Leer_fichero {
                 NOMBRESUCURSAL = arreglo.get(2).toString();
                 TELEFONOSUCURSAL = arreglo.get(3).toString();
                 IMPRESORA = arreglo.get(4).toString();
-
-       //     System.out.println("" + IPSUCURSAL + SUCURSAL + NOMBRESUCURSAL + TELEFONOSUCURSAL+IMPRESORA);
             } catch (IOException e) {
-                
+
             }
         } else {
             JOptionPane.showMessageDialog(null, "compruebe que config.TXT EXISTA Y/O tenga los parametros necesarios");

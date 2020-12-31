@@ -45,8 +45,8 @@ public class MENUREIMPRIMIR extends javax.swing.JFrame {
         GregorianCalendar gg = new GregorianCalendar();
         SimpleDateFormat dd = new SimpleDateFormat("dd/MM/yyyy");
         SimpleDateFormat ddd = new SimpleDateFormat("HH:mm");
-        SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd", Locale.getDefault());
-        SimpleDateFormat sdfr = new SimpleDateFormat("dd/MM/YYYY", Locale.getDefault());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        SimpleDateFormat sdfr = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
        
 
  
@@ -262,7 +262,7 @@ public class MENUREIMPRIMIR extends javax.swing.JFrame {
 
     private void BTNBUSCARBTNBUSCAR(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNBUSCARBTNBUSCAR
         ///Datos para generar garantia
-        SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd", Locale.getDefault());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         String fechaformateada = sdf.format(JTFECHA.getDate());
         int folio = JTFOLIO.getValue();
         String caja = CBCAJA.getSelectedItem().toString();
@@ -273,6 +273,7 @@ public class MENUREIMPRIMIR extends javax.swing.JFrame {
             st = conexion.createStatement();
             st.executeUpdate("use CML");
     //Seleccionar datos
+            System.out.println("FECHA FORMATEADA"+fechaformateada+">>>"+JTFECHA.getDate()+"xxxxxx"+sdf);
             // rs = st.executeQuery("select caja,folio,articulo,codigo,precioventa FROM VENTAS WHERE FOLIO='"+folio+"' and FECHA='"+fechaformateada+"' and CAJA='"+caja+"' ;");
             rs = st.executeQuery("select caja,folio,codigo,precioventaneto ,(select descripcion from codigos where codigo=ventas.codigo)as descrip,(select nombrec from empleados where empleado=ventas.cajero)as cajero from ventas where fecha='" + fechaformateada + "' and sucursal='"+SUCURSAL+"' and folio='" + folio + "' and caja='" + caja + "'; ");
 
