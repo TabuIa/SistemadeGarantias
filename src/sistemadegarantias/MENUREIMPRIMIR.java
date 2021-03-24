@@ -254,9 +254,7 @@ public class MENUREIMPRIMIR extends javax.swing.JFrame {
     private void BTNATRASActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNATRASActionPerformed
         MENU M = new MENU();
         M.setVisible(true);
-        M.setExtendedState(MAXIMIZED_BOTH);
-        M.setSize(1199, 719);
-        M.setLocation(0, 0);
+      
         dispose();
     }//GEN-LAST:event_BTNATRASActionPerformed
 

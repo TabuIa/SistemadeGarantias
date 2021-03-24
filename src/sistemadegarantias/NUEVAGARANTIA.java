@@ -350,9 +350,7 @@ public class NUEVAGARANTIA extends javax.swing.JFrame {
     private void BTNATRASActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNATRASActionPerformed
         MENU M = new MENU();
         M.setVisible(true);
-        M.setExtendedState(MAXIMIZED_BOTH);
-        M.setSize(1199, 719);
-        M.setLocation(0, 0);
+       
         this.dispose();
     }//GEN-LAST:event_BTNATRASActionPerformed
 
@@ -375,10 +373,7 @@ public class NUEVAGARANTIA extends javax.swing.JFrame {
             try {
 
                 while (rs.next()) {
-                  //  System.out.println( rs.getInt(1)+ rs.getInt(2)+ rs.getString(3).trim()+ rs.getDouble(4)
-                   //         + rs.getString(5).trim()+ rs.getString(6).trim());
-                    Object[] fila = {rs.getInt(1), rs.getInt(2), rs.getString(3) , rs.getDouble(4)
-                            , rs.getString(5) , rs.getString(6)};
+                    Object[] fila = {rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getDouble(4), rs.getString(5), rs.getString(6)};
                     md.addRow(fila);
                 }
                 int CONT = md.getRowCount();

@@ -585,9 +585,7 @@ public class HISTORIAL extends javax.swing.JFrame {
         // TODO add your handling code here:
         MENU M = new MENU();
         M.setVisible(true);
-            M.setExtendedState(MAXIMIZED_BOTH);  
-            M.setSize(1199, 719);
-       M.setLocation(0, 0);
+          
         this.dispose();
 
     }//GEN-LAST:event_BTNATRASActionPerformed
