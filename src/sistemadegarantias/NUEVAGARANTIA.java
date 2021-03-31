@@ -29,17 +29,18 @@ import static sistemadegarantias.Configuracionserver.SUCURSAL;
 import static sistemadegarantias.Configuracionserver.TELEFONOSUCURSAL;
  
 public class NUEVAGARANTIA extends javax.swing.JFrame {
-        Statement st;
-        ResultSet rs;
-        DefaultTableModel md;
-        PreparedStatement ps = null;
-        
-  
-        GregorianCalendar gg = new GregorianCalendar();
-        SimpleDateFormat dd = new SimpleDateFormat("dd/MM/yyyy");
-        SimpleDateFormat ddd = new SimpleDateFormat("HH:mm");
+
+    Statement st;
+    ResultSet rs;
+    DefaultTableModel md;
+    PreparedStatement ps = null;
+
+    GregorianCalendar gg = new GregorianCalendar();
+    SimpleDateFormat dd = new SimpleDateFormat("dd/MM/yyyy");
+    SimpleDateFormat ddd = new SimpleDateFormat("HH:mm");
+
     public NUEVAGARANTIA() {
-      
+
         initComponents();
          tblCH.getTableHeader().setReorderingAllowed(false);
         
