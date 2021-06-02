@@ -61,8 +61,10 @@ public class MENUREIMPRIMIR extends javax.swing.JFrame {
         md = new DefaultTableModel(data, cabeza){
             @Override
             public boolean isCellEditable(int row, int column) {
-                if (column != 6)return false;
-                else return true;
+                if (column != 6)
+                    return false;
+                else 
+                    return true;
             }
         };
         tblCH.setModel(md);
