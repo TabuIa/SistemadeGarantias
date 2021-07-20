@@ -361,7 +361,7 @@ public class HISTORIAL extends javax.swing.JFrame {
               java.sql.Connection conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://"+IPSUCURSAL+"", "usounds", "madljda");                 st = conexion.createStatement();
             st.executeUpdate("use CML");
             
-             rs = st.executeQuery("select nombrecliente,telefonocliente,fecha,caja,folio,correocliente,sucursal from ventaspagos where nombrecliente  like'%"+BUSCADOR+"%'");
+             rs = st.executeQuery("select nombrecliente,telefonocliente,fecha,caja,folio,correocliente,sucursal from ventaspagos where nombrecliente  like'%"+BUSCADOR.trim()+"%'");
             md = (DefaultTableModel) tblCH2.getModel();
             md.setRowCount(0);
             try {
@@ -400,7 +400,7 @@ public class HISTORIAL extends javax.swing.JFrame {
             
          
           //Seleccionar datos
-             rs = st.executeQuery("select nombrecliente,telefonocliente,fecha,caja,folio,correocliente,sucursal from ventaspagos where correocliente  like'%"+BUSCADOR+"%'");
+             rs = st.executeQuery("select nombrecliente,telefonocliente,fecha,caja,folio,correocliente,sucursal from ventaspagos where correocliente  like'%"+BUSCADOR.trim()+"%'");
            
           //  rs = st.executeQuery("select nombrecliente,fecha,caja,folio,importe from ventaspagos where nombrecliente  like'%"+BUSCADOR+"%'");
             md = (DefaultTableModel) tblCH2.getModel();
@@ -663,7 +663,7 @@ public class HISTORIAL extends javax.swing.JFrame {
                         + "from ventas v, codigosgarantias cg, ventaspagos vp where v.fecha=vp.fecha and v.folio=vp.folio and v.caja=vp.caja and v.sucursal=vp.sucursal and\n"
                         + "v.codigo=cg.codigo and v.fecha='" + vfecha + "' and v.caja='" + vcaja + "' and v.folio='" + vfolio + "' and v.sucursal='" + SUC+ "' and vp.clavepago<>99\n"
                         + "group by v.codigo,cg.codigo,cg.garantia,v.cantidad,cg.dias,vp.nombrecliente,vp.telefonocliente,vp.correocliente,v.cajero");
-
+                System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>2021 "+ vfecha);
                 md = (DefaultTableModel) tblCH2.getModel();
                 md.setRowCount(0);
                 try {
@@ -674,7 +674,7 @@ public class HISTORIAL extends javax.swing.JFrame {
                             + "******SUCURSAL: "+NOMBRESUCURSAL+"***********\n;"
                             + "*********TEL: "+TELEFONOSUCURSAL+"***********\n;"
                             + "                                        \n;"
-                            + "Fecha:" + dd.format(gg.getTime()) + "      Hora:" + ddd.format(gg.getTime()) + "\n;"
+                            + "Fecha:" + vfecha + "      Hora reimp:" + ddd.format(gg.getTime()) + "\n;"
                               + "Folio: " + vfolio + " Caja: "+vcaja+"    \n;"
                             + "                                         \n;"
                             + "Pzas " + "Codigo" + "      Garantia " + "Precio" + "\n;"
@@ -696,6 +696,8 @@ public class HISTORIAL extends javax.swing.JFrame {
                         CAJERORS = rs.getString(7);
     
                     }
+                    
+                    
                     System.out.println(">>>>>>>>>>>> "+NOMBRECLIERS+"*************");
                     String h = Header + a;
 
