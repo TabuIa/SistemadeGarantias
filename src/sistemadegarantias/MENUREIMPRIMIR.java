@@ -388,7 +388,8 @@ public class MENUREIMPRIMIR extends javax.swing.JFrame {
                         }
                       
                         String capricho = "";
-                        if (b.contains("154")) {
+                        if (b.contains("154")//||b.contains("153")
+                                ) {
                           //  System.out.println("lleva bafle");
                             capricho
                                     = "2 Meses de Garantia solo por defectos\n;"
