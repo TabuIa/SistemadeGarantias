@@ -369,7 +369,6 @@ public class MENUREIMPRIMIR extends javax.swing.JFrame {
                                 + "Pzas " + "Codigo" + "      Garantia " + "Precio" + "\n;"
                                 + "     Descripcion     Dias        " + "\n;"
                                 + "--------------------------------------\n;";
-
                         String a = "";
                         String b = "";
                         String CORREORS = "";
